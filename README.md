@@ -8,7 +8,7 @@
 
 비동기 이벤트 주도 JavaScript 런타임으로써 Node.js 는 확장성 있는 네트워크 애플리케이션을 만들 수 있도록 설계, 각 연결에서 콜백이 실행되는데 실행할 작업이 없다면 Node.js는 대기함.
 
-## NodeJS의 특징
+### NodeJS의 특징
 
 - 비동기 I/O처리 / 이벤트 위주
 - 빠른 속도
@@ -16,7 +16,7 @@
 - 노 버퍼링
 - 라이센스
 
-## NodeJS의 사용처
+### NodeJS의 사용처
 
 - 입출력이 잦은 애플리케이션
 - 데이터 스트리밍 애플리케이션
@@ -25,13 +25,13 @@
 - SPA
   > 이 경우 뛰어난 효율성을 자랑함.
 
-## NodeJS를 쓰지 말아야 할 때
+### NodeJS를 쓰지 말아야 할 때
 
 - CPU 사용률이 높은 애플리케이션
 
 # Node.js 개발환경 만들기
 
-## 개발환경
+### 개발환경
 
 0. Git 설치 및 세팅
    - > git config --global user.name "**your name**"
@@ -53,7 +53,7 @@
 
 # 프로젝트 시작하기
 
-## NPM 명령어
+### NPM 명령어
 
 1. 콘솔에서 해당 경로 진입 후 **npm init** 입력
 2. 정보 입력 후 마무리
@@ -103,15 +103,15 @@
 
 # 라우터 Router
 
-## app.js
+### app.js
 
 ![router-app](https://user-images.githubusercontent.com/46839654/69612394-ee62f400-1072-11ea-94f5-121b8f539d73.png)
 
-## router.js
+### router.js
 
 ![router-router](https://user-images.githubusercontent.com/46839654/69612395-eefb8a80-1072-11ea-9db3-90e992bb37b1.png)
 
-## results
+### results
 
 ![router-show](https://user-images.githubusercontent.com/46839654/69612397-eefb8a80-1072-11ea-85fa-cc1409ea632c.png)
 ![router-show1](https://user-images.githubusercontent.com/46839654/69612398-ef942100-1072-11ea-9740-5fbe0aa770de.png)
@@ -120,19 +120,19 @@
 
 # 미들웨어 Middleware
 
-## middleware.js
+### middleware.js
 
 ![middleware-js](https://user-images.githubusercontent.com/46839654/69613479-f885f200-1074-11ea-86e2-001749fe66aa.png)
 
-## router.js
+### router.js
 
 ![middleware-route](https://user-images.githubusercontent.com/46839654/69613482-f885f200-1074-11ea-96bb-dd0fb189e4db.png)
 
-## app.js
+### app.js
 
 ![middleware-app](https://user-images.githubusercontent.com/46839654/69612924-01c28f00-1074-11ea-95b7-5743189ecdac.png)
 
-## results
+### results
 
 ![middleware-show](https://user-images.githubusercontent.com/46839654/69613484-f91e8880-1074-11ea-939f-dfe3fdacc0f4.png)
 
