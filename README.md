@@ -4,6 +4,7 @@
 - [4. 라우터](#라우터-Router)
 - [5. 미들웨어](#미들웨어-Middleware)
 - [6. 템플릿 엔진](#템플릿-엔진-pug)
+- [7. res.locals](#템플릿에서-접근이-가능한-속성-res.locals)
 
 # NodeJS란?
 
@@ -192,3 +193,17 @@
 ![result-pug](https://user-images.githubusercontent.com/46839654/69617589-c1ffa580-107b-11ea-964b-05183b0d6e95.png)
 
 ---
+
+# 템플릿에서 접근이 가능한 속성 res.locals
+### middleware.js
+![middleware-locals](https://user-images.githubusercontent.com/46839654/69619255-a8ac2880-107e-11ea-8d79-edf4d58edeab.png)
+
+### main.pug
+![main-locals](https://user-images.githubusercontent.com/46839654/69619254-a8139200-107e-11ea-94ff-b5f0129e43db.png)
+
+### app.js
+![home-locals](https://user-images.githubusercontent.com/46839654/69619253-a8139200-107e-11ea-80d4-d7c18ca7cce6.png)
+
+### results
+![result-locals](https://user-images.githubusercontent.com/46839654/69619451-edd05a80-107e-11ea-8135-4ad038b8cd11.png)
+> res.render()의 두번째 인자는 특정 템플릿에만 데이터를 넘기지만, **res.locals**는 전역적으로 데이터를 넘김.
