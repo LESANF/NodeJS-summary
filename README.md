@@ -3,6 +3,7 @@
 - [3. 빠르게 서버 만들기](#express-서버-만들기)
 - [4. 라우터](#라우터-Router)
 - [5. 미들웨어](#미들웨어-Middleware)
+- [6. 템플릿 엔진](#템플릿-엔진-pug)
 
 # NodeJS란?
 
@@ -29,27 +30,31 @@
 
 - CPU 사용률이 높은 애플리케이션
 
+---
+
 # Node.js 개발환경 만들기
 
 ### 개발환경
 
-0. Git 설치 및 세팅
+1. Git 설치 및 세팅
    - > git config --global user.name "**your name**"
    - > git config --global user.email "**your email**"
      >
      > > **공용컴퓨터에선 --global로 설정 X**
      > > 취향에 따라 WSL을 설치
-1. Windows 10 개발자모드 활성화
+2. Windows 10 개발자모드 활성화
    - > 설정 > 업데이트&보안 > 개발자 > 개발자모드
      >
      > > ![devenable2](https://user-images.githubusercontent.com/46839654/69611428-13566780-1071-11ea-9286-641ffed52c42.PNG)
    - > Windows 기능 > **리눅스 하위 시스템** 활성화
      >
      > > ![devenable](https://user-images.githubusercontent.com/46839654/69611424-12253a80-1071-11ea-88dd-88d3141f2cec.PNG)
-1. NodeJS 설치
+3. NodeJS 설치
    > 자동으로 **npm**이 설치됨.
-1. VSC 설치 (텍스트 에디터)
+4. VSC 설치 (텍스트 에디터)
    > 확장프로그램 **Prettier 필수**
+
+---
 
 # 프로젝트 시작하기
 
@@ -91,6 +96,8 @@
    - > pug (템플릿 엔진)
    - > multer (파일 저장)
 
+---
+
 # express 서버 만들기
 
 ![express](https://user-images.githubusercontent.com/46839654/69611438-18b3b200-1071-11ea-8321-bb4828b2d84e.PNG)
@@ -100,6 +107,8 @@
 > 실제 사용할 때는 express.listen(**port**, **callback**)을 적어야 한다.
 >
 > > 위의 코드는 @Babel/preset-env가 적용된 상태임. 적용하지 않으면 구형 자바스크립트를 사용해야함.
+
+---
 
 # 라우터 Router
 
@@ -117,6 +126,8 @@
 ![router-show1](https://user-images.githubusercontent.com/46839654/69612398-ef942100-1072-11ea-9740-5fbe0aa770de.png)
 
 > user로 라우터를 연결했다면 userRouter의 /user로 접근하기 위해선 **"/"** 으로 접근해야 한다.
+
+---
 
 # 미들웨어 Middleware
 
@@ -139,3 +150,45 @@
 > 라우터 위에 작성하면 경로가 바뀔 때마다 실행된다.
 >
 > > 어떤 Function이든 미들웨어가 될 수 있다.
+
+---
+
+# 템플릿 엔진 pug
+
+### pug 설치
+
+> npm i pug
+
+### app 설정
+
+![pug-app](https://user-images.githubusercontent.com/46839654/69617587-c1ffa580-107b-11ea-99a4-41b668ef6916.png)
+
+> pug의 default 폴더명은 "**views**"이다. 바꿀 수 있음.
+>
+> > \_\_dirname은 현재 디렉터리를 표시하고, path.join은 매개변수를 잇는다(join).
+
+### pug 템플릿
+
+- layouts/main
+
+![main-pug](https://user-images.githubusercontent.com/46839654/69617586-c1ffa580-107b-11ea-87d1-ec054e949b84.png)
+
+> pug은 레이아웃 기능을 지원함. (mixins, include, extends)
+
+- partials/header
+
+![header-pug](https://user-images.githubusercontent.com/46839654/69617581-c1670f00-107b-11ea-8cb4-3d8d2116df0d.png)
+
+> 중복적인 부분을 한번만 작성하여 재사용이 가능함.
+
+- home
+
+![home-pug](https://user-images.githubusercontent.com/46839654/69617584-c1670f00-107b-11ea-819a-9c052420e252.png)
+
+> 그 결과, 레이아웃을 불러오고 block content 안에만 채우면 됨.
+
+- 실행 결과
+
+![result-pug](https://user-images.githubusercontent.com/46839654/69617589-c1ffa580-107b-11ea-964b-05183b0d6e95.png)
+
+---
