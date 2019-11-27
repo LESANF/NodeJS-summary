@@ -6,7 +6,8 @@
 - [6. 템플릿 엔진](#템플릿-엔진-pug)
 - [7. res.locals](#템플릿에서-접근이-가능한-속성-locals)
 - [8. express.static](#express-static)
-- [9. MongoDB](#MongoDB)
+- [9. MongoDB 기본 설정](#MongoDB)
+- [10. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
 
 # NodeJS란?
 
@@ -226,15 +227,24 @@
   > ![pug static](https://user-images.githubusercontent.com/46839654/69711162-ecb53100-1143-11ea-8bd0-48c86a6bc13a.png) > ![pugjsstatic](https://user-images.githubusercontent.com/46839654/69711163-ed4dc780-1143-11ea-8f3d-6286f545aac6.png)
   >
   > > static 폴더가 기본값으로 지정되었기 때문에 파일을 지정할 때 이런 형식으로 사용한다.
+- 더 많은 정보
+  > [Express에서 정적 파일 제공](https://expressjs.com/ko/starter/static-files.html)
 
 # MongoDB
 
+NoSQL 데이터베이스 언어임. 더 적은 규칙과 더 적은 절차로 작업이 가능함. 많은 사람들이
+MongoDB를 사용하고 있음. 사용하기 엄청 쉽고 직관적임.
+
 - MongoDB 설치 및 MongoAtlas 이용
 
-  > [MongoDB](#https://www.mongodb.com/), [MongoAtlas](#https://www.mongodb.com/cloud/atlas)
+  > [MongoDB](https://www.mongodb.com/), [MongoAtlas](https://www.mongodb.com/cloud/atlas)
   >
   > > 설치나 설정법은 간단하니 생략
 
+- mongoose 설치
+  > npm i mongoose
+  >
+  > > NodeJS를 위한 Object modeling.
 - app.js 설정
   > ![db1](https://user-images.githubusercontent.com/46839654/69712888-e7a5b100-1146-11ea-82b3-e479adcd18e3.png)
   >
@@ -242,8 +252,58 @@
 - db.js 설정
   > ![db1](https://user-images.githubusercontent.com/46839654/69712779-bf1db700-1146-11ea-8a2b-146a903eca73.png)
   >
-  > > Atlas로 진행하는 경우 cluster를 생성하면 도움말이 있다.
+  > > Atlas로 진행하는 경우 cluster를 생성하면 도움말이 있다. 설정 값들은 문서를 보고 필요한 것을 사용하자.
 - 실행 결과
   > ![connect](https://user-images.githubusercontent.com/46839654/69713074-3ce1c280-1147-11ea-9286-c6b999f48116.png)
   >
   > > 위처럼 handleOpen()이 실행되면 성공적으로 db에 연결이 되었다.
+
+# MongoDB 모델 만들고 데이터 삽입하기
+
+### Model
+
+- 모델 생성
+  > ![model](https://user-images.githubusercontent.com/46839654/69716271-0dce4f80-114d-11ea-9c34-6fbaa1e6eb3b.png)
+  >
+  > > 모델을 하나 간단하게 만들었다.
+- 모델 불러오기
+  > ![modeldb](https://user-images.githubusercontent.com/46839654/69716463-61d93400-114d-11ea-825a-9b83ce4adcf2.png)
+  >
+  > > 그리고 모델을 불러온다. 따로 모듈들을 모아둔 파일을 하나 만들어도 된다.
+
+### body-parser
+
+form 입력 데이터를 백엔드에서 받으려면 `body-parser` 패키지가 필요하다. 설치를 해보자.
+
+> npm i body-parser
+>
+> > ![bodyParser](https://user-images.githubusercontent.com/46839654/69716933-7407a200-114e-11ea-94f5-3b25ea8fa719.png)
+>
+> `app.use(bodyParser...)`는 pug 설정 밑에 적도록 하자.
+
+### req
+
+req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하면 전체적인 요청들을 확인할 수 있다. 그 중에서 form 데이터를 받기 위해 req.body를 활용할 것이다.
+
+- form 생성
+  > ![UserCreatedForm](https://user-images.githubusercontent.com/46839654/69716219-f98a5280-114c-11ea-8293-2b1280a7ea85.png) > ![form](https://user-images.githubusercontent.com/46839654/69717387-525aea80-114f-11ea-953f-1822d70ec50c.png)
+  >
+  > > 우선 form을 하나 만들었다.
+- 라우터 설정
+  > ![reqBody](https://user-images.githubusercontent.com/46839654/69716610-b4b2eb80-114d-11ea-8884-f70aa8206ff8.png)
+- 콘솔 결과
+
+  > ![result](https://user-images.githubusercontent.com/46839654/69717603-b2ea2780-114f-11ea-91a0-fd2914c1c85e.png) > ![reqBody](https://user-images.githubusercontent.com/46839654/69717175-e7111880-114e-11ea-8610-d7ae5d37354e.png)
+
+  > `req.body`를 콘솔 찍어보면 form의 데이터가 넘어온다.
+
+### 데이터 삽입
+
+이제 DB에 데이터를 넣어보자.
+
+- 라우터 설정
+  > ![UserCreatedcode](https://user-images.githubusercontent.com/46839654/69717739-f6449600-114f-11ea-9e06-d9845dc24f02.png)
+- 결과
+  > ![UserCreatedconsole](https://user-images.githubusercontent.com/46839654/69717740-f6449600-114f-11ea-8ac0-6d68c2b566a7.png)
+  >
+  > > 정상적으로 DB에 등록이 된 것을 확인할 수 있다.
