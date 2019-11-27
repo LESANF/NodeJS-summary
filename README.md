@@ -1,4 +1,4 @@
-- [1. Node.js란?](#NodeJS란?)
+- [1. Node.js란?](#NodeJS)
 - [2. 개발환경 세팅](#프로젝트-시작하기)
 - [3. 빠르게 서버 만들기](#express-서버-만들기)
 - [4. 라우터](#라우터-Router)
@@ -8,8 +8,9 @@
 - [8. express.static](#express-static)
 - [9. MongoDB 기본 설정](#MongoDB)
 - [10. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
+- [11. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
 
-# NodeJS란?
+# NodeJS
 
 비동기 이벤트 주도 JavaScript 런타임으로써 Node.js 는 확장성 있는 네트워크 애플리케이션을 만들 수 있도록 설계, 각 연결에서 콜백이 실행되는데 실행할 작업이 없다면 Node.js는 대기함.
 
@@ -317,5 +318,76 @@ req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하�
   > ![UserCreatedconsole](https://user-images.githubusercontent.com/46839654/69717740-f6449600-114f-11ea-8ac0-6d68c2b566a7.png)
   >
   > > 정상적으로 DB에 등록이 된 것을 확인할 수 있다.
+  >
+  > > MongoDB는 자동으로 \_`id(Object Id)`가 생기는데, 이를 통해 데이터 관리를 체계적으로 할 수 있다.
+  >
+  > > 예를들면, `db.users.findOne({id: object._id})`
 
 ---
+
+# PassportLocalMongoose를 통한 회원가입
+
+Passport를 통해서 local 로그인을 구현할 수 있다.
+
+### 설치
+
+> npm i `passport` `passport-local`
+>
+> npm i `express-session` `connect-mongo` `cookie-parser`
+>
+> > express-session : 세션, connect-mongo : 로그인 유지, cookie-parser : 쿠키 분해
+>
+> npm i `passport-local-mongoose`
+>
+> > [공식 문서](https://github.com/saintedlama/passport-local-mongoose)
+
+### 설정
+
+> 코드가 지저분하여 모듈로 나누었다.
+
+- UserSchema.js (Model)
+  > ![dawdawdawd](https://user-images.githubusercontent.com/46839654/69728116-36634300-1167-11ea-8b80-fd337b4efa86.png)
+  >
+  > > `passport-local-mongoose`를 import하고 UserSchema에 플러그인을 사용한다.
+- passport.js
+  > ![adwadaw](https://user-images.githubusercontent.com/46839654/69728902-acb47500-1168-11ea-9f1e-c3b190397c95.png)
+  >
+  > `serializeUser`는 로그인 성공 시 실행되는 done(null, user)에서 user 객체를 전달받아 `req.session.passport.user`에 user를 집어넣고
+  >
+  > `deserializeUser`는 실제 서버로 들어오는 요청마다 세션 정보(serialize에 의해 저장된)를 DB의 데이터와 비교하고 해당하는 유저 정보가 존재하면 `req.user`에 저장한다.
+  >
+  > 만약 passport-local-mongoose를 `사용하지 않는다면` 아래처럼 작성해야 한다.
+  >
+  > > ![passportOriginal](https://user-images.githubusercontent.com/46839654/69728704-4deefb80-1168-11ea-9356-22f2121fd255.png)
+- index.js
+  > ![adwadaw](https://user-images.githubusercontent.com/46839654/69731784-d3c17580-116d-11ea-9909-c782587466db.png)
+- globalController.js
+  > ![123132](https://user-images.githubusercontent.com/46839654/69732122-63ffba80-116e-11ea-9460-f5b748749a7b.png)
+  >
+  > > passport-local-mongoose에 의해 제공되는 `db.register({userObject}, password)` 는 비밀번호를 암호화해서 숨긴다.
+  >
+  > > (실제로 스키마에도 비밀번호를 만들지 않았다)
+- globalRouter.js
+  > ![globalRouter](https://user-images.githubusercontent.com/46839654/69732025-429ece80-116e-11ea-8ccb-d10520f45687.png)
+  >
+  > > passport-local-mongoose에 의해 `req.logout()`이 제공된다.
+- home.pug
+  > ![home](https://user-images.githubusercontent.com/46839654/69732911-d58c3880-116f-11ea-8b63-2a29a3d7c579.png)
+  >
+  > > 로그인 정보, 로그인, 회원가입, 로그아웃을 간단히 만들었다.
+- 실행 결과
+  > 최초 접속 시 화면
+  >
+  > ![a](https://user-images.githubusercontent.com/46839654/69733282-74b13000-1170-11ea-9693-eea150c3cbe5.png)
+  >
+  > 회원가입
+  >
+  > ![h](https://user-images.githubusercontent.com/46839654/69733143-3287ee80-1170-11ea-8d93-c528584f49fd.png)
+  >
+  > > 작동
+  >
+  > 로그인
+  >
+  > ![b](https://user-images.githubusercontent.com/46839654/69733310-7ed32e80-1170-11ea-8e89-ecf6a0821c75.png)
+  >
+  > > res.locals에 의해 `req.user 객체`가 보여진다.
