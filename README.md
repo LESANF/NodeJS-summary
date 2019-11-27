@@ -163,6 +163,8 @@
 ### pug 설치
 
 > npm i pug
+>
+> > [공식문서](https://pugjs.org/api/getting-started.html)
 
 ### app 설정
 
@@ -252,6 +254,8 @@ MongoDB를 사용하고 있음. 사용하기 엄청 쉽고 직관적임.
 
 - mongoose 설치
   > npm i mongoose
+  >
+  > > [공식문서](https://mongoosejs.com/docs/guide.html)
   >
   > > NodeJS를 위한 Object modeling.
 - app.js 설정
