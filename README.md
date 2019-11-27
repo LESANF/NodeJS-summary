@@ -395,3 +395,28 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
   > ![b](https://user-images.githubusercontent.com/46839654/69733310-7ed32e80-1170-11ea-8e89-ecf6a0821c75.png)
   >
   > > res.locals에 의해 `req.user 객체`가 보여진다.
+
+---
+
+# dotenv
+
+> github 등에 코드를 업로드 하게되면 자신의 API key, DB주소 및 계정 등 보여지지 말아야 할 것들이 올라가는 경우가 있다.
+>
+> 이런 상황을 위해 만들어진 패키지로, 사용법은 매우 간단하다.
+
+> npm install `dotenv`
+
+### 사용법
+
+- 프로젝트 폴더에 **.env** 파일 생성
+  > ![dotenv2](https://user-images.githubusercontent.com/46839654/69740486-d4add380-117c-11ea-9688-f72afce4051f.png)
+  >
+  > db.js
+  >
+  > ![dotenv](https://user-images.githubusercontent.com/46839654/69740449-c1026d00-117c-11ea-93da-50869b42c959.png)
+  >
+  > > `dotenv`를 import 한 후, `dotenv.config();` 하고 난 뒤 `process.env.name`으로 사용한다.
+  >
+  > ![dotenv1](https://user-images.githubusercontent.com/46839654/69740451-c19b0380-117c-11ea-8ac7-383e2df77abe.png)
+  >
+  > > 중요한 정보는 가려지고 작동은 잘 된다. **꼭 .env를 .gitignore에 등록해야 한다.**
