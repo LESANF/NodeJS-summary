@@ -226,7 +226,11 @@
   >
   > > app.use()의 첫번째 인자, 경로를 생략하면 모든 경로에 static이 적용된다.
 - 사용 예제
-  > ![pug static](https://user-images.githubusercontent.com/46839654/69711162-ecb53100-1143-11ea-8bd0-48c86a6bc13a.png) > ![pugjsstatic](https://user-images.githubusercontent.com/46839654/69711163-ed4dc780-1143-11ea-8f3d-6286f545aac6.png)
+  > ![static](https://user-images.githubusercontent.com/46839654/69718430-b088cd00-1151-11ea-9450-2931572dc980.png)
+  >
+  > ![pug static](https://user-images.githubusercontent.com/46839654/69711162-ecb53100-1143-11ea-8bd0-48c86a6bc13a.png)
+  >
+  > ![pugjsstatic](https://user-images.githubusercontent.com/46839654/69711163-ed4dc780-1143-11ea-8f3d-6286f545aac6.png)
   >
   > > static 폴더가 기본값으로 지정되었기 때문에 파일을 지정할 때 이런 형식으로 사용한다.
 - 더 많은 정보
