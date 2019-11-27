@@ -217,6 +217,8 @@
 
 > res.render()의 두번째 인자는 특정 템플릿에만 데이터를 넘기지만, `res.locals`는 전역적으로 데이터를 넘김.
 
+---
+
 # express static
 
 - Express 정적 파일 제공
@@ -229,6 +231,8 @@
   > > static 폴더가 기본값으로 지정되었기 때문에 파일을 지정할 때 이런 형식으로 사용한다.
 - 더 많은 정보
   > [Express에서 정적 파일 제공](https://expressjs.com/ko/starter/static-files.html)
+
+---
 
 # MongoDB
 
@@ -257,6 +261,8 @@ MongoDB를 사용하고 있음. 사용하기 엄청 쉽고 직관적임.
   > ![connect](https://user-images.githubusercontent.com/46839654/69713074-3ce1c280-1147-11ea-9286-c6b999f48116.png)
   >
   > > 위처럼 handleOpen()이 실행되면 성공적으로 db에 연결이 되었다.
+
+---
 
 # MongoDB 모델 만들고 데이터 삽입하기
 
@@ -307,3 +313,5 @@ req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하�
   > ![UserCreatedconsole](https://user-images.githubusercontent.com/46839654/69717740-f6449600-114f-11ea-8ac0-6d68c2b566a7.png)
   >
   > > 정상적으로 DB에 등록이 된 것을 확인할 수 있다.
+
+---
