@@ -7,9 +7,10 @@
 - [7. res.locals](#템플릿에서-접근이-가능한-속성-locals)
 - [8. express.static](#express-static)
 - [9. MongoDB 기본 설정](#MongoDB)
-- [10. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
-- [11. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
-- [12. 민감한 정보, dotenv로 가리자](#dotenv)
+- [9-1. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
+- [9-2. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
+- [10. 민감한 정보, dotenv로 가리자](#dotenv)
+- [11. Gulp 시작하기](#Babel을-이용한-Gulp)
 
 # NodeJS
 
@@ -112,7 +113,7 @@
 
 > 실제 사용할 때는 express().listen(**port**, **callback**)을 적어야 한다.
 >
-> `res.send(expression)`는 문자열을 띄어주고, `res.render("템플릿", {data})`는 템플릿을 보여주고, `res.json(data)`는 json 형태로 data를 반환한다. 
+> `res.send(expression)`는 문자열을 띄어주고, `res.render("템플릿", {data})`는 템플릿을 보여주고, `res.json(data)`는 json 형태로 data를 반환한다.
 >
 > > 위의 코드는 @Babel/preset-env가 적용된 상태임. 적용하지 않으면 구형 자바스크립트를 사용해야함.
 
@@ -127,11 +128,12 @@
 ### router.js
 
 ![router-router](https://user-images.githubusercontent.com/46839654/69612395-eefb8a80-1072-11ea-9db3-90e992bb37b1.png)
+
 > `/:id`는 파라미터 변수로, 예를들면 영화 id가 203인 그 영화을 보여줄 때 활용한다.
 >
-> `파라미터 변수의 값`은 해당 라우터의 콜백 함수에서 `req.params`로 받을 수 있다. 
+> `파라미터 변수의 값`은 해당 라우터의 콜백 함수에서 `req.params`로 받을 수 있다.
 >
-> `const { id } = req.params;` 
+> `const { id } = req.params;`
 
 ### results
 
@@ -328,13 +330,14 @@ req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하�
 
 - 라우터 설정
   > ![UserCreatedcode](https://user-images.githubusercontent.com/46839654/69717739-f6449600-114f-11ea-9e06-d9845dc24f02.png)
-  >> 예를들어 video를 하나 업로드 했는데, 업로드에 성공하자 마자 그 video의 detail로 이동하게 만들고 싶다면
   >
-  >> `const video = db.create({});` 👉 `res.redirect(video.id);`
+  > > 예를들어 video를 하나 업로드 했는데, 업로드에 성공하자 마자 그 video의 detail로 이동하게 만들고 싶다면
   >
-  >> 이런 흐름으로 코드를 작성하면 된다. 중간에 에러를 잡아내야 한다면 `try-catch`를 사용한다.
+  > > `const video = db.create({});` 👉 `res.redirect(video.id);`
   >
-  >> `const { email, password } = req.body;` 👉 const { **템플릿의 input에 설정해둔 name** } = req.body
+  > > 이런 흐름으로 코드를 작성하면 된다. 중간에 에러를 잡아내야 한다면 `try-catch`를 사용한다.
+  >
+  > > `const { email, password } = req.body;` 👉 const { **템플릿의 input에 설정해둔 name** } = req.body
 - 결과
   > ![UserCreatedconsole](https://user-images.githubusercontent.com/46839654/69717740-f6449600-114f-11ea-8ac0-6d68c2b566a7.png)
   >
@@ -384,11 +387,12 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
   > > ![passportOriginal](https://user-images.githubusercontent.com/46839654/69728704-4deefb80-1168-11ea-9356-22f2121fd255.png)
 - index.js
   > ![adwadaw](https://user-images.githubusercontent.com/46839654/69731784-d3c17580-116d-11ea-9909-c782587466db.png)
-  >> **passport.initialize()**, **passport.session()**  👉 session을 처리하는 이 두가지를 꼭 잊지말고 넣어줘야 한다. (공식문서 참조)
   >
-  >> **mongoose**, **connect-mongo** : 서버가 재시작 되면 세션 정보가 사라지기 때문에 DB에 세션을 저장한다.
+  > > **passport.initialize()**, **passport.session()** 👉 session을 처리하는 이 두가지를 꼭 잊지말고 넣어줘야 한다. (공식문서 참조)
   >
-  >> `18~ 30줄`은 passport-local을 사용하기 위한 필수 설정임.
+  > > **mongoose**, **connect-mongo** : 서버가 재시작 되면 세션 정보가 사라지기 때문에 DB에 세션을 저장한다.
+  >
+  > > `18~ 30줄`은 passport-local을 사용하기 위한 필수 설정임.
 - globalController.js
   > ![123132](https://user-images.githubusercontent.com/46839654/69732122-63ffba80-116e-11ea-9460-f5b748749a7b.png)
   >
@@ -444,3 +448,118 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
   > ![dotenv1](https://user-images.githubusercontent.com/46839654/69740451-c19b0380-117c-11ea-8ac7-383e2df77abe.png)
   >
   > > 중요한 정보는 가려지고 작동은 잘 된다. **꼭 .env를 .gitignore에 등록해야 한다.**
+
+---
+
+# Gulp를 시작하는 법
+
+gulp는 Fractal Innovations과 깃허브 오픈 소스 커뮤니티의 오픈 소스 자바스크립트 툴킷으로, 프론트엔드 웹 개발의 스트리밍 빌드 시스템로 사용된다.
+
+### 모듈번들러
+
+![adwadawdaw](https://user-images.githubusercontent.com/46839654/69810217-be605000-122e-11ea-92a3-98c3700bcc89.png)
+
+> 모듈로 이루어진 scss와 front-end js파일을 각각 하나의 파일로 묶어주면서 구형 브라우저에 지원되게 코드를 트랜스파일 해준다.
+
+### 설치
+
+> npm i `gulp -D`
+
+### 폴더 구조
+
+> ![dawdadwawjsdf](https://user-images.githubusercontent.com/46839654/69811675-f0bf7c80-1231-11ea-888e-9c2d985dd1ef.png)
+>
+> > `gulpfile.js`은 일단 빈 상태로 생성해둔다.
+
+### package.json
+
+> ![dawdawdcc](https://user-images.githubusercontent.com/46839654/69811920-7e02d100-1232-11ea-92b3-57b71472dece.png)
+>
+> `npm run dev`를 입력하면
+>
+> ![dawdghjgh](https://user-images.githubusercontent.com/46839654/69811970-9f63bd00-1232-11ea-8125-7f96f900ee67.png)
+>
+> 이렇게 실행은 되진 않지만, Using gulpfile을 사용한다고 적혀있다.
+>
+> `gulpfile.js`에 내용을 채워넣고 다시 `npm run dev`를 입력하면
+>
+> ![213daawdwadawds](https://user-images.githubusercontent.com/46839654/69812458-83ace680-1233-11ea-89d7-0b63805414ac.png)
+>
+> > ![adabnhgnf](https://user-images.githubusercontent.com/46839654/69812283-25800380-1233-11ea-86f6-e50b824f8003.png)
+>
+> 문법 에러가 생기는 것을 볼 수 있다. babel을 사용하지 않아 생기는 에러다.
+>
+> ![adasdasad](https://user-images.githubusercontent.com/46839654/69812545-accd7700-1233-11ea-8431-c28dde2bc165.png)
+>
+> 구형 문법으로 작성하면 다시 작동한다. 위에 보면 `Task never defined: dev`라고 빨간 글자가 있는데
+>
+> 요 에러는 task가 존재하지 않아 나타나는 에러다.
+>
+> 그런데 우리는 최신 문법을 사용하고 싶지 않은가.
+
+### Babel을 이용한 Gulp
+
+> 필요한 패키지를 설치해보자.
+>
+> > npm i @babel/core @babel/register @babel/preset-env -D
+>
+> 그런 다음, .babelrc 파일을 생성하자.
+>
+> > ![dawdawdawdassas](https://user-images.githubusercontent.com/46839654/69813189-07b39e00-1235-11ea-9238-987e10cf3364.png)
+>
+> 그리고 gulpfile.js를 다음 이름으로 바꾸자.
+>
+> > ![asdsadadawbfbcv](https://user-images.githubusercontent.com/46839654/69813425-88729a00-1235-11ea-8eca-4a54093163ed.png)
+>
+> 이제 다시 gulp dev를 입력해보면
+>
+> > ![asdsaadadasddasasas](https://user-images.githubusercontent.com/46839654/69813504-b0fa9400-1235-11ea-9f11-f7d9fa2298b2.png)
+> >
+> > 첫번째 줄에 babel을 사용한다고 적혀있고, 저번이랑 똑같이 dev라는 task가 없다고 함.
+> >
+> > 이게 바로 gulp 프로젝트를 시작하는 방법이다.
+
+# Gulp-pug
+
+pug을 번들링 한다.
+
+- 설치
+  > npm i del
+  >
+  > > del : 폴더를 지워주는 패키지
+  >
+  > npm i gulp-pug -D
+- gulpfile.babel.js
+  > ![asdasdadawdawaw](https://user-images.githubusercontent.com/46839654/69814720-26fffa80-1238-11ea-9770-628156849bb5.png)
+  >
+  > > gulp.src = 번들링 할 파일을 지정해준다. \*은 모든 파일, \*\*은 모든 폴더를 뜻한다.
+  > >
+  > > .pipe = 파이프를 연결하면서 원하는 모양으로 만듭니다.
+  > >
+  > > gulp.dest = 번들링 된 파일을 집어넣을 폴더를 지정.
+  > >
+  > > del = del([ ]) 안에 폴더들의 배열을 갖는다. 여기에 적힌 폴더들은 삭제된다.
+  > >
+  > > gulp.series([ ]) = 지정해둔 작업들을 집어넣어 순서대로 실행되게 한다.
+  > >
+  > > export 하는 것은 package.json에서 사용할 command만 해주면 된다. 만약 clean을 export 하지않으면 사용하지 못한다.
+- pug files
+  > templates/layout.pug
+  >
+  > > ![awdawdadaw](https://user-images.githubusercontent.com/46839654/69815544-e1443180-1239-11ea-96c1-12683efaae45.png)
+  >
+  > index.pug
+  >
+  > > ![asdaasasasdasddasassa](https://user-images.githubusercontent.com/46839654/69815545-e1dcc800-1239-11ea-88e3-5a4777f6751f.png)
+- 실행
+  > ![zxczxccczcxczcxzx](https://user-images.githubusercontent.com/46839654/69814721-26fffa80-1238-11ea-9cc8-43294875e9c7.png)
+  >
+  > 번들링이 끝나고 난 후
+  >
+  > > ![sdffsdsfdsdfsdf](https://user-images.githubusercontent.com/46839654/69815403-96c2b500-1239-11ea-81c6-db2f03bdb554.png)
+  >
+  > 변환된 html을 확인해보면
+  >
+  > > ![adawdkadakwkj](https://user-images.githubusercontent.com/46839654/69815180-23b93e80-1239-11ea-8cdc-7078c2464450.png)
+  >
+  > html 형식에 맞게 변환되어 있는 것을 확인할 수 있다.
