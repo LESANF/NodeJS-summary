@@ -110,7 +110,7 @@
 
 ![example](https://user-images.githubusercontent.com/46839654/69611434-16e9ee80-1071-11ea-9ebf-e56f0efcafe0.PNG)
 
-> 실제 사용할 때는 express.listen(**port**, **callback**)을 적어야 한다.
+> 실제 사용할 때는 express().listen(**port**, **callback**)을 적어야 한다.
 >
 > `res.send(expression)`는 문자열을 띄어주고, `res.render("템플릿", {data})`는 템플릿을 보여주고, `res.json(data)`는 json 형태로 data를 반환한다. 
 >
@@ -130,6 +130,8 @@
 > `/:id`는 파라미터 변수로, 예를들면 영화 id가 203인 그 영화을 보여줄 때 활용한다.
 >
 > `파라미터 변수의 값`은 해당 라우터의 콜백 함수에서 `req.params`로 받을 수 있다. 
+>
+> `const { id } = req.params;` 
 
 ### results
 
@@ -331,6 +333,8 @@ req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하�
   >> `const video = db.create({});` 👉 `res.redirect(video.id);`
   >
   >> 이런 흐름으로 코드를 작성하면 된다. 중간에 에러를 잡아내야 한다면 `try-catch`를 사용한다.
+  >
+  >> `const { email, password } = req.body;` 👉 const { **템플릿의 input에 설정해둔 name** } = req.body
 - 결과
   > ![UserCreatedconsole](https://user-images.githubusercontent.com/46839654/69717740-f6449600-114f-11ea-8ac0-6d68c2b566a7.png)
   >
@@ -366,6 +370,8 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
   > ![dawdawdawd](https://user-images.githubusercontent.com/46839654/69728116-36634300-1167-11ea-8b80-fd337b4efa86.png)
   >
   > > `passport-local-mongoose`를 import하고 UserSchema에 플러그인을 사용한다.
+  >
+  > > UserSchema에만 passport-local-mongoose 플러그인을 사용하면 된다.
 - passport.js
   > ![adwadaw](https://user-images.githubusercontent.com/46839654/69728902-acb47500-1168-11ea-9f1e-c3b190397c95.png)
   >
