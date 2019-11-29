@@ -12,6 +12,7 @@
 - [10. 민감한 정보, dotenv로 가리자](#dotenv)
 - [11. Gulp 시작하기](#Gulp를-시작하는-법)
 - [11-1 Gulp_pug](#Gulp-pug)
+- [11-2 Gulp SASS](#Gulp-SASS)
 
 # NodeJS
 
@@ -564,3 +565,119 @@ pug을 번들링 한다.
   > > ![adawdkadakwkj](https://user-images.githubusercontent.com/46839654/69815180-23b93e80-1239-11ea-8cdc-7078c2464450.png)
   >
   > html 형식에 맞게 변환되어 있는 것을 확인할 수 있다.
+
+# Gulp SASS
+
+gulp-sass라는 멋진 플러그인으로 트랜스파일이 가능하다.
+
+> npm i gulp-sass -D
+>
+> [npm link](https://www.npmjs.com/package/gulp-sass)
+>
+> > 하지만, 그 전에 `node-sass`를 설치해야 한다.
+> >
+> > 하나는 gulp랑 동작하는 것이고, 다른 하나는 node와 동작한다.
+> > 기본적으로 gulp-sass가 node-sass로 sass 파일을 전해준다.
+
+### 사용법
+
+> ![basicuse](https://user-images.githubusercontent.com/46839654/69849486-3034aa00-12c0-11ea-8856-fba55ae5e44c.png)
+>
+> > 공식문서를 참조하면, gulp와 gulp-sass를 불러오고 sass.compiler로 node-sass를 사용한다. 엄청 간단하다.
+
+> ![asddsaasdasda](https://user-images.githubusercontent.com/46839654/69849852-252e4980-12c1-11ea-8cc3-086efdd946f1.png)
+>
+> > sass를 불러오고, sass.compiler를 설정해준다.
+
+> ![aaaaaaaaa](https://user-images.githubusercontent.com/46839654/69851217-873c7e00-12c4-11ea-981a-f35089f84286.png)
+>
+> ![zxxzzxzx](https://user-images.githubusercontent.com/46839654/69850763-590a6e80-12c3-11ea-85bf-93b9f47f74bf.png)
+>
+> > routes와 task를 정의한다.
+> >
+> > `sass().on("error", sass.logError))`은 만약 여기서 에러가 발생한다면 sass만의 에러를 보여주는 것이다.
+> >
+> > sass의 에러는 좀 다르다. console을 죽이는 javascript 내에서의 에러를 원하는게 아님. `이런거 css에서 못찾겠어요` 같은 느낌이다.
+
+> ![ccccccccccc](https://user-images.githubusercontent.com/46839654/69851299-b5ba5900-12c4-11ea-8916-88dd2bc7a728.png)
+>
+> > 이제 assets와 dev에 각각 넣어줍니다.
+>
+> ![zxzxxzzxxzxzxzxzx](https://user-images.githubusercontent.com/46839654/69851142-4d6b7780-12c4-11ea-903d-f824279d21fa.png)
+>
+> > `gulp dev`를 입력하면 잘 작동합니다.
+>
+> build 폴더를 확인해보면
+>
+> ![dddddddddddd](https://user-images.githubusercontent.com/46839654/69851366-e3070700-12c4-11ea-983d-8a5efd561118.png) > ![eeeeeee](https://user-images.githubusercontent.com/46839654/69851412-0467f300-12c5-11ea-9cf8-ae7998aaa90b.png)
+>
+> > 변환이 잘 되어있는 모습을 볼 수 있습니다.
+
+- \_ (언더스코어)
+
+  > scss파일에 `_`가 붙어있는 경우가 있는데, 이 밑줄은 sass한테 자기들을 compile 하진말고 사용만 하라고 알려주는 것이다.
+  >
+  > 만약 밑줄이 없다면 sass는 해당 파일명으로 css파일을 만들고 그걸 styles.css에 import할 것임. 그러면 결국 두 개의 파일을 얻기 때문에 밑줄을 선호한다.
+
+- sass에서의 에러
+  > 예를들어, 이 변수를 다른거로 바꿔보겠다.
+  >
+  > ![aaaaa](https://user-images.githubusercontent.com/46839654/69851692-9ff96380-12c5-11ea-9477-08298f2c2b29.png) > ![bbbbbb](https://user-images.githubusercontent.com/46839654/69851693-9ff96380-12c5-11ea-97dd-d03ea9f76dbb.png)
+  >
+  > 바꾸고 난 뒤, 다시 gulp dev를 실행하면
+  >
+  > ![cccccccc](https://user-images.githubusercontent.com/46839654/69851694-a091fa00-12c5-11ea-9a57-a3109710da1a.png)
+  >
+  > 이렇게 sass에서의 에러가 보이는 것을 확인할 수 있다.
+
+**하지만, 최신 css를 사용하고 있다면 이것 만으로는 부족하다. 추가 설정을 더 해야한다.**
+
+> gulp-autoprefixer라는 것을 설치해보자. 이 패키지는 기본적으로 우리가 작업한 코드를 알아듣지 못하는 구형 브라우저도 호환가능하게 만들어준다.
+>
+> > npm i gulp-autoprefixer -D
+>
+> 그런다음, import를 한다
+>
+> ![dddddd](https://user-images.githubusercontent.com/46839654/69851911-3af23d80-12c6-11ea-9f84-67b06096f3ad.png)
+>
+> 지금까지 한 작업들은 src 👉 pipe 👉 dest 총 3단계였는데, autoprefixer를 넣기위해 pipe를 하나 더 넣어야 한다.
+>
+> ![eeeeeee](https://user-images.githubusercontent.com/46839654/69852065-9fad9800-12c6-11ea-8a1a-15223e9edc6f.png)
+>
+> > autoprefixer에는 몇가지 옵션이 있다. 그 중 browsers:[ ] 는 코드를 얼마나 호환 가능하게 할지 정하는 것임.
+> >
+> > [문서](https://github.com/postcss/autoprefixer#options) 에 브라우저들이 있다. 예를들면
+> >
+> > ![fffffffff](https://user-images.githubusercontent.com/46839654/69852262-2c585600-12c7-11ea-87ad-d97e2e03cf3e.png)
+> >
+> > 이렇게 사용률이 5% 이상인, 미국에서 5% 이상인 브라우저 등등 목록이 여러개 있다.
+> >
+> > 위에서 사용한 `last 2 versions`는 모든 브라우저들의 최대 두단계 아래 버전까지 지원하겠다는 뜻임. (`이게 기본값임`)
+>
+> 이제 gulp dev 실행 후 결과를 확인해보면
+>
+> ![ggggggg](https://user-images.githubusercontent.com/46839654/69852530-d6d07900-12c7-11ea-9c54-cb0279895c7c.png)
+>
+> > `vh`, `flex` 등 최신 css 사용했고 `webkit`(chrome을 위한 호환성 처리)도 들어가있는 것을 볼 수 있다.
+>
+> 이게 `autoprefixer`다.
+>
+> 하지만, 이 아름다운 코드는 얘가 낼 수 있을 만큼의 속도가 나오지 않는다. 무슨 뜻이냐면, css파일들에 공백들이 들어가 있는데 이 공백 하나하나가 다 byte 용량들임.
+>
+> 그래서 지금부터 css를 최소화 할 것임. gulp-csso를 사용해서.
+>
+> 설치 및 import 해둔 `gulp-csso`를 pipe를 사용하여 추가한다.
+>
+> ![qqqqqqqqqqqqqq](https://user-images.githubusercontent.com/46839654/69852846-a76e3c00-12c8-11ea-9be9-d339915d1a0d.png)
+>
+> ![wwwwwwwwwwwwww](https://user-images.githubusercontent.com/46839654/69852974-ff0ca780-12c8-11ea-8a5e-38d0799a5594.png)
+>
+> > 옵션을 추가할 수 있지만, 아무것도 설정 안해도 충분하기 때문에 빈 상태로 놔둘 것임.
+>
+> 이제 다시 gulp dev를 실행하면
+>
+> ![yyyyyyyyyyyyyyyyyy](https://user-images.githubusercontent.com/46839654/69853075-3e3af880-12c9-11ea-9ca4-479019fee9d8.png)
+>
+> > 이렇게 공백이 하나도 없는 css파일을 볼 수 있다.
+>
+> **이렇게 pipe를 사용하면 원하는 모든 것을 다 넣을 수 있다. 차례대로 이어주기만 하면 된다.**
