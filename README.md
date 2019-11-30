@@ -11,9 +11,10 @@
 - [9-2. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
 - [10. 민감한 정보, dotenv로 가리자](#dotenv)
 - [11. Gulp 시작하기](#Gulp를-시작하는-법)
+- [11-0 Gulp 기본문법](#Gulp-기본-문법)
 - [11-1 Gulp_pug](#Gulp-pug)
-- [11-2 Gulp SASS](#Gulp-SASS)
-- [11-3 Gulp Babel](#Gulp-Babel)
+- [11-2 Gulp_SASS](#Gulp-SASS)
+- [11-3 Gulp_Babel](#Gulp-Babel)
 
 # NodeJS
 
@@ -47,11 +48,13 @@
 ### 개발환경
 
 1. Git 설치 및 세팅
-   - > git config --global user.name "**your name**"
-   - > git config --global user.email "**your email**"
+   - > git config --list를 입력하면 현재 설정 값들을 볼 수 있다.
+   - > git config --global `user.name` "**your name**"
+   - > git config --global `user.email` "**your email**"
      >
      > > `공용컴퓨터에선 --global로 설정 X`
-     > > 취향에 따라 WSL을 설치
+   - > git config --unset `config.name` (--global이 아닌 설정 삭제)
+   - > git config --unset --global `config.name` (--global인 설정 삭제)
 2. Windows 10 개발자모드 활성화
    - > 설정 > 업데이트&보안 > 개발자 > 개발자모드
      >
@@ -61,8 +64,30 @@
      > > ![devenable](https://user-images.githubusercontent.com/46839654/69611424-12253a80-1071-11ea-88dd-88d3141f2cec.PNG)
 3. NodeJS 설치
    > 자동으로 `npm`이 설치됨.
+   >
+   > npm이란? `node package manager`이다. Node 프로젝트의 패키지를 관리한다.
 4. VSC 설치 (텍스트 에디터)
    > 확장프로그램 `Prettier 필수`
+   >
+   > VSC 내에서 터미널을 사용할 수 있는데, `cmd`, `bash(WSL)` 등등 설정해서 사용할 수 있다.
+   >
+   > > Windows 사용자라면 기본값으로 cmd가 적용되어 있다.
+   >
+   > 자신이 Windows 사용자이고, VSC의 기본 터미널을 바꾸고 싶다면 아래와 같이 하면 된다.
+   >
+   > > Microsoft Store에서 `Ubuntu`를 설치한다.
+   > >
+   > > ![ubuntu](https://user-images.githubusercontent.com/46839654/69894779-fae39700-1367-11ea-9e65-d3e397341e91.png)
+   > >
+   > > 설치가 끝나면 실행해서 잠시 기다린 다음, username과 password를 입력한다.
+   > >
+   > > 이건 Ubuntu지만 아무것도 설치되어있지 않기 때문에, `설정법`은 다른 개발 블로그들을 확인하자.
+   > >
+   > > `Ctrl` + `,`으로 VSC 설정을 연다. 그런 다음 `terminal.integrated.shell.windows`을 검색한다.
+   > >
+   > > cmd를 사용하는 경우 : "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe"
+   > >
+   > > WSL을 사용하는 경우 : "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe"
 
 ---
 
@@ -110,7 +135,9 @@
 
 # express 서버 만들기
 
-![express](https://user-images.githubusercontent.com/46839654/69611438-18b3b200-1071-11ea-8321-bb4828b2d84e.PNG)
+> [express 공식문서](https://expressjs.com/ko/)
+>
+> ![express](https://user-images.githubusercontent.com/46839654/69611438-18b3b200-1071-11ea-8321-bb4828b2d84e.PNG)
 
 ![example](https://user-images.githubusercontent.com/46839654/69611434-16e9ee80-1071-11ea-9ebf-e56f0efcafe0.PNG)
 
@@ -436,6 +463,8 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
 > 이런 상황을 위해 만들어진 패키지로, 사용법은 매우 간단하다.
 
 > npm install `dotenv`
+>
+> > [npm link](https://www.npmjs.com/package/dotenv)
 
 ### 사용법
 
@@ -467,6 +496,10 @@ gulp는 Fractal Innovations과 깃허브 오픈 소스 커뮤니티의 오픈 �
 ### 설치
 
 > npm i `gulp -D`
+>
+> > [Official gulp API](https://gulpjs.com/docs/en/getting-started/quick-start)
+> >
+> > [npm gulp link](https://www.npmjs.com/package/gulp)
 
 ### 폴더 구조
 
@@ -522,6 +555,8 @@ gulp는 Fractal Innovations과 깃허브 오픈 소스 커뮤니티의 오픈 �
 > >
 > > 이게 바로 gulp 프로젝트를 시작하는 방법이다.
 
+---
+
 # Gulp 기본 문법
 
 ### gulp.src
@@ -530,7 +565,7 @@ gulp는 Fractal Innovations과 깃허브 오픈 소스 커뮤니티의 오픈 �
 >
 > gulp의 task를 실행 할 원본 파일을 지정한다.
 >
-> > ![src](https://user-images.githubusercontent.com/46839654/69894053-8e639a80-135d-11ea-982c-e8bf8e6fbc05.png)
+> ![src](https://user-images.githubusercontent.com/46839654/69894053-8e639a80-135d-11ea-982c-e8bf8e6fbc05.png)
 
 ### gulp.dest
 
@@ -538,7 +573,15 @@ gulp는 Fractal Innovations과 깃허브 오픈 소스 커뮤니티의 오픈 �
 >
 > gulp의 task가 실행된 파일을 저장할 경로를 지정한다.
 >
-> > ![dest](https://user-images.githubusercontent.com/46839654/69894075-0a5de280-135e-11ea-9d53-9266abe02b99.png)
+> ![dest](https://user-images.githubusercontent.com/46839654/69894075-0a5de280-135e-11ea-9d53-9266abe02b99.png)
+
+### gulp.watch
+
+> `gulp.watch("경로", task)`
+>
+> `경로`에 속한 파일들이 `변경`되면 두번째 인자, callback으로 다시 `task`를 실행한다.
+>
+> ![watch](https://user-images.githubusercontent.com/46839654/69894694-57de4d80-1366-11ea-854e-7d222078f83d.png)
 
 ### gulp.series
 
@@ -556,7 +599,7 @@ gulp는 Fractal Innovations과 깃허브 오픈 소스 커뮤니티의 오픈 �
 >
 > 구성된 작업이 실행되면 모든 작업이 최대 동시성으로 실행됩니다. 한 작업에서 오류가 발생하면 다른 작업은 비 결정적으로 완료되거나 완료되지 않을 수 있습니다.
 >
-> > ![parallel](https://user-images.githubusercontent.com/46839654/69894221-26628380-1360-11ea-83d6-d81792d1f4b0.png)
+> ![parallel](https://user-images.githubusercontent.com/46839654/69894221-26628380-1360-11ea-83d6-d81792d1f4b0.png)
 
 # Gulp pug
 
@@ -566,8 +609,12 @@ pug을 번들링 한다.
   > npm i del
   >
   > > del : 폴더를 지워주는 패키지
+  > >
+  > > [del API](https://www.npmjs.com/package/del)
   >
   > npm i gulp-pug -D
+  >
+  > > [gulp-pug API](https://www.npmjs.com/package/gulp-pug)
 - gulpfile.babel.js
   > ![asdasdadawdawaw](https://user-images.githubusercontent.com/46839654/69814720-26fffa80-1238-11ea-9770-628156849bb5.png)
   >
