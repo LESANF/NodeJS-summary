@@ -577,7 +577,10 @@ gulp-sass라는 멋진 플러그인으로 트랜스파일이 가능하다.
 > > 하지만, 그 전에 `node-sass`를 설치해야 한다.
 > >
 > > 하나는 gulp랑 동작하는 것이고, 다른 하나는 node와 동작한다.
+> >
 > > 기본적으로 gulp-sass가 node-sass로 sass 파일을 전해준다.
+> >
+> > node-sass 설치 중 에러 발생시 `node_modules 폴더`를 삭제하고 다시 `npm i` 하면 된다.
 
 ### 사용법
 
@@ -681,3 +684,87 @@ gulp-sass라는 멋진 플러그인으로 트랜스파일이 가능하다.
 > > 이렇게 공백이 하나도 없는 css파일을 볼 수 있다.
 >
 > **이렇게 pipe를 사용하면 원하는 모든 것을 다 넣을 수 있다. 차례대로 이어주기만 하면 된다.**
+
+# Gulp Babel
+
+Javascript를 다루기 위해서 할 것은 Javascript를 babel에서 실행 시키는 것인데, 그 다음 할 것은 Browserify에서 실행시키는 것이다.
+
+### Browserify란?
+
+> 개발자들이 브라우저에서 Node.js 스타일의 모듈을 사용하기 위한 오픈소스 JS 툴이다.
+>
+> 기본적으로 브라우저는 이런 문법을 이해 못한다.
+>
+> ![aaaa](https://user-images.githubusercontent.com/46839654/69893628-aa643d80-1357-11ea-983e-3515c227b673.png)
+>
+> > import나 export같은 것들
+>
+> Browserify는 이런 문법을 이해하도록 도와준다.
+>
+> 그러니 우리는 Browserify를 import하고, 그 Browserify 안에 Babel을 실행해야 한다. 이게 기본이다. 엄청 쉽다.
+
+### 시작
+
+> 먼저, gulp를 위한 browserify를 설치하자.
+>
+> `npm i gulp-bro`
+>
+> `npm i babelify`
+>
+> > [npm link](https://www.npmjs.com/package/gulp-bro)
+>
+> > gulp-browserify는 더이상 유지보수가 안되어 gulp-bro를 사용한다.
+>
+> 사용법을 보자
+>
+> ![bb](https://user-images.githubusercontent.com/46839654/69893680-6cb3e480-1358-11ea-8234-288e08fce373.png)
+>
+> > app.js를 가지고 browserify를 pipe로 연결하세요.. 네. 그 다음 저장할 위치를 지정하세요. 엄청 간단하다.
+> >
+> > 하지만 우리는 이와 동시에 js파일들을 변형해줘야 합니다.
+> >
+> > Browserify를 사용하지만, 그와 동시에 babelify도 사용해야 한다. 이렇게 해서 코드에 babel을 사용할 수 있다.
+> >
+> > 만약 React에서 사용할 거라면, react preset같은 걸 설치해줘야 한다.
+> >
+> > ![ccc](https://user-images.githubusercontent.com/46839654/69893704-e2b84b80-1358-11ea-88ea-168641d25aca.png)
+> >
+> > 지금은 하나 밖에 없지만, 프리셋이 더 들어간다.
+
+### 설정
+
+> ![dddd](https://user-images.githubusercontent.com/46839654/69893747-68d49200-1359-11ea-9020-4700cc0e30a8.png)
+>
+> > 먼저, 모듈을 import 해주고
+>
+> ![eeee](https://user-images.githubusercontent.com/46839654/69893794-ff08b800-1359-11ea-8c8c-58c9ce8a0fbf.png)
+>
+> > js 경로를 만들어 준다. 이렇게 안만들고 `gulp.src`에서 바로 접근해도 된다.
+> >
+> > js의 경우 main.js에 모든 js 모듈이 import 되어있는 상태로, 소스는 `main.js` 하나만 필요하다.
+> >
+> > 하지만 지켜봐야 하는 파일들은 모든 js파일이다.
+>
+> ![ffff](https://user-images.githubusercontent.com/46839654/69893821-5c9d0480-135a-11ea-8f12-af5ed10125f5.png)
+>
+> > 이제 task를 작성한다.
+> >
+> > `babelify.configure({})`의 key인 `presets`는 현재 `@babel/preset-env`로 사용중이기 때문에 preset-env로 적는다.
+>
+> ![ggg](https://user-images.githubusercontent.com/46839654/69893849-b6053380-135a-11ea-828f-9d01a95caec1.png)
+>
+> > 이제 dev 명령어로 사용하기 위해 적절한 위치에 js를 집어넣는다.
+
+### 실행
+
+> ![hhhh](https://user-images.githubusercontent.com/46839654/69893882-15fbda00-135b-11ea-83b3-af73b4db6a50.png)
+>
+> 코드를 확인해보자
+>
+> ![bbb](https://user-images.githubusercontent.com/46839654/69893912-77bc4400-135b-11ea-90cd-2a20e0109bd2.png)
+>
+> 이랬던게
+>
+> ![aa](https://user-images.githubusercontent.com/46839654/69893911-7723ad80-135b-11ea-8c23-05d50e96f51c.png)
+>
+> 구형코드로 트랜스파일과 난독화가 되었다. ~~그리고 엄청나게 압축이 되었다~~
