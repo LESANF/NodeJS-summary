@@ -13,6 +13,7 @@
 - [11. Gulp 시작하기](#Gulp를-시작하는-법)
 - [11-1 Gulp_pug](#Gulp-pug)
 - [11-2 Gulp SASS](#Gulp-SASS)
+- [11-3 Gulp Babel](#Gulp-Babel)
 
 # NodeJS
 
@@ -521,6 +522,42 @@ gulp는 Fractal Innovations과 깃허브 오픈 소스 커뮤니티의 오픈 �
 > >
 > > 이게 바로 gulp 프로젝트를 시작하는 방법이다.
 
+# Gulp 기본 문법
+
+### gulp.src
+
+> `gulp.src("파일 경로", [옵션])`
+>
+> gulp의 task를 실행 할 원본 파일을 지정한다.
+>
+> > ![src](https://user-images.githubusercontent.com/46839654/69894053-8e639a80-135d-11ea-982c-e8bf8e6fbc05.png)
+
+### gulp.dest
+
+> `gulp.dest("폴더 및 파일 경로", [옵션])`
+>
+> gulp의 task가 실행된 파일을 저장할 경로를 지정한다.
+>
+> > ![dest](https://user-images.githubusercontent.com/46839654/69894075-0a5de280-135e-11ea-9d53-9266abe02b99.png)
+
+### gulp.series
+
+> `gulp.series([func string])`
+>
+> 많은 수의 task를 개별 인수로 전달할 수 있다. 이전에 task를 등록한 경우 문자열을 사용할 수 있지만, 권장하지는 않는다.
+>
+> 구성된 작업이 실행되면 모든 작업이 순차적으로 실행됩니다. 한 작업에서 오류가 발생하면 후속 작업이 실행되지 않습니다.
+>
+> ![series](https://user-images.githubusercontent.com/46839654/69894127-9cfe8180-135e-11ea-8e87-2e57ed611d3e.png)
+
+### gulp.parallel
+
+> `gulp.parallel([task])`
+>
+> > ![parallel](https://user-images.githubusercontent.com/46839654/69894221-26628380-1360-11ea-83d6-d81792d1f4b0.png)
+>
+> 구성된 작업이 실행되면 모든 작업이 최대 동시성으로 실행됩니다. 한 작업에서 오류가 발생하면 다른 작업은 비 결정적으로 완료되거나 완료되지 않을 수 있습니다.
+
 # Gulp pug
 
 pug을 번들링 한다.
@@ -565,6 +602,8 @@ pug을 번들링 한다.
   > > ![adawdkadakwkj](https://user-images.githubusercontent.com/46839654/69815180-23b93e80-1239-11ea-8cdc-7078c2464450.png)
   >
   > html 형식에 맞게 변환되어 있는 것을 확인할 수 있다.
+
+---
 
 # Gulp SASS
 
@@ -685,6 +724,8 @@ gulp-sass라는 멋진 플러그인으로 트랜스파일이 가능하다.
 >
 > **이렇게 pipe를 사용하면 원하는 모든 것을 다 넣을 수 있다. 차례대로 이어주기만 하면 된다.**
 
+---
+
 # Gulp Babel
 
 Javascript를 다루기 위해서 할 것은 Javascript를 babel에서 실행 시키는 것인데, 그 다음 할 것은 Browserify에서 실행시키는 것이다.
@@ -710,6 +751,8 @@ Javascript를 다루기 위해서 할 것은 Javascript를 babel에서 실행 �
 > `npm i gulp-bro`
 >
 > `npm i babelify`
+>
+> `npm i uglifyify`
 >
 > > [npm link](https://www.npmjs.com/package/gulp-bro)
 >
@@ -768,3 +811,5 @@ Javascript를 다루기 위해서 할 것은 Javascript를 babel에서 실행 �
 > ![aa](https://user-images.githubusercontent.com/46839654/69893911-7723ad80-135b-11ea-8c23-05d50e96f51c.png)
 >
 > 구형코드로 트랜스파일과 난독화가 되었다. ~~그리고 엄청나게 압축이 되었다~~
+
+---
