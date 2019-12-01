@@ -6,15 +6,16 @@
 - [6. 템플릿 엔진](#템플릿-엔진-pug)
 - [7. res.locals](#템플릿에서-접근이-가능한-속성-locals)
 - [8. express.static](#express-static)
-- [9. MongoDB 기본 설정](#MongoDB)
-- [9-1. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
-- [9-2. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
-- [10. 민감한 정보, dotenv로 가리자](#dotenv)
-- [11. Gulp 시작하기](#Gulp를-시작하는-법)
-- [11-0 Gulp 기본문법](#Gulp-기본-문법)
-- [11-1 Gulp_pug](#Gulp-pug)
-- [11-2 Gulp_SASS](#Gulp-SASS)
-- [11-3 Gulp_Babel](#Gulp-Babel)
+- [9. fetch / axios](#fetch-/-axios)
+- [10. MongoDB 기본 설정](#MongoDB)
+- [10-1. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
+- [10-2. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
+- [11. 민감한 정보, dotenv로 가리자](#dotenv)
+- [12. Gulp 시작하기](#Gulp를-시작하는-법)
+- [12-0 Gulp 기본문법](#Gulp-기본-문법)
+- [12-1 Gulp_pug](#Gulp-pug)
+- [12-2 Gulp_SASS](#Gulp-SASS)
+- [12-3 Gulp_Babel](#Gulp-Babel)
 
 # NodeJS
 
@@ -290,6 +291,72 @@
   > > static 폴더가 기본값으로 지정되었기 때문에 파일을 지정할 때 이런 형식으로 사용한다.
 - 더 많은 정보
   > [Express에서 정적 파일 제공](https://expressjs.com/ko/starter/static-files.html)
+
+---
+
+# fetch / axios
+먼저 위에 두개를 이해하기 위해선 `Ajax`를 알아야 한다. 
+
+Ajax는 `Asynchronous JavaScript and XML`의 약자이다. 해석하면 비동기적인 웹 앱을 만들기 위한 웹개발 기법이다.
+
+요즘은 JSON으로 많이 사용하기 때문에 Ajaj라고 불러야 할지 모른다.
+
+이를 도입했을 때의 장점
+- 페이지 이동없이 고속으로 화면을 전환할 수 있다
+- 서버 처리를 기다리지 않고, 비동기 요청이 가능하다.
+- 수신하는 데이터 양을 줄일 수 있고, 클라이언트에게 처리를 위임할 수 있다.
+
+### fetch
+> Ajax를 구현하기 위한 최신 기술인 fetch API를 사용할 수 있음.
+>
+> 사용하기에 앞서, `Promise`라는 개념을 익혀야 한다.
+>
+> `fetch('주소', 설정객체).then(콜백).catch(콜백)` 👉 fetch 요청 후의 return 값이 promise 객체이다.
+> > 기본적인 구조이다. 요청을 보낼 주소를 입력하고, 설정객체에 GET, POST 등의 메소드, 보낼 데이터 등을 넣을 수 있다. 
+> >
+> > [fetch 문서](https://developer.mozilla.org/ko/docs/Web/API/Fetch_API/Fetch%EC%9D%98_%EC%82%AC%EC%9A%A9%EB%B2%95)
+> >
+> > **then** 에서 응답 response 객체를 받고 catch에선 요청에 대한 에러를 받는다.
+>
+> 사용 예제
+> > ![carbon](https://user-images.githubusercontent.com/46839654/69917345-12c23480-14a8-11ea-9bb9-35de50cd848d.png)
+> >
+> > 이런 식으로 함수를 만들 수 있다.
+
+### axios
+> [axios npm](https://www.npmjs.com/package/axios)
+>
+> 기존의 fetch보다 더 다양한 기능을 쓰기위해 `axios`를 사용한다.
+>
+> axios는 npm 패키지이다.
+>
+> 여러 API를 불러오는데, URL이 겹치는 부분이 있다면 아래처럼 사용할 수 있다.
+> > ![carbon (1)](https://user-images.githubusercontent.com/46839654/69917406-f2df4080-14a8-11ea-9bdb-c4560ab959d9.png)
+> >
+> > `baseURL`로 기본 URL을 설정하고 get()에서 `baseURL + 나머지 URL`을 입력할 수 있다. 
+> >
+> > 사용하는 API에서 params를 지원하는 경우 위처럼 활용이 가능하다.
+>
+> 백엔드를 구축하였고, 서버 내부의 API를 활용하는 경우
+> > 아래는 프론트엔드의 js파일이다. 
+> > 
+> > ![carbon (2)](https://user-images.githubusercontent.com/46839654/69917445-93356500-14a9-11ea-9c1b-0cf1e9a94da8.png)
+> >
+> > 아래는 백엔드의 컨트롤러 부분이다.
+> >
+> > ![carbon (3)](https://user-images.githubusercontent.com/46839654/69917498-13f46100-14aa-11ea-8342-056c8934129f.png)
+> >
+> > `ADD_COMMENT = "/:id/comment"`
+> > 
+> > ![carbon (4)](https://user-images.githubusercontent.com/46839654/69917499-15258e00-14aa-11ea-98ea-e3309c4e2cba.png)
+> > 
+> > 전체적으로 살펴보면, 프론트의 axios에서 보낸 POST에 data (comment)가 있다. 
+> >
+> > 서버는 이를 `파라미터 변수 id` 와 `axios를 통해 받은 data를 req.body.comment` 그리고 `passport로 생성된 req.user` 로 가져와서 처리를 한다.
+> >
+> > API 처리 중 에러가 발생하면 status 코드를 400 (클라이언트 에러) 내보내고, 결과적으로 response를 끝낸다.
+> >
+> > 백엔드에서 처리가 다 끝나고 return 받은 status 코드가 200 (정상)이면 댓글을 클라이언트 페이지에 비동기로 생성하는 코드다.
 
 ---
 
