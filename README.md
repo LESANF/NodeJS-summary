@@ -71,6 +71,14 @@
 4. VSC 설치 (텍스트 에디터)
    > 확장프로그램 `Prettier 필수`
    >
+   > > Prettier 설정
+   > >
+   > > ![amkiu](https://user-images.githubusercontent.com/46839654/69908458-752a1f00-142d-11ea-8870-c8e782bbc881.png)
+   > >
+   > > ![zzzd](https://user-images.githubusercontent.com/46839654/69908483-dbaf3d00-142d-11ea-9ef7-6e4fa63b260d.png)
+   > >
+   > > `"editor.formatOnSave": true` 추가
+   >
    > VSC 내에서 터미널을 사용할 수 있는데, `cmd`, `bash(WSL)` 등등 설정해서 사용할 수 있다.
    >
    > > Windows 사용자라면 기본값으로 cmd가 적용되어 있다.
@@ -336,6 +344,8 @@ form 입력 데이터를 백엔드에서 받으려면 `body-parser` 패키지가
 
 > npm i body-parser
 >
+> [body-parser](https://www.npmjs.com/package/body-parser)
+>
 > > ![bodyParser](https://user-images.githubusercontent.com/46839654/69716933-7407a200-114e-11ea-94f5-3b25ea8fa719.png)
 >
 > `app.use(bodyParser...)`는 pug 설정 밑에 적도록 하자.
@@ -389,13 +399,19 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
 
 > npm i `passport` `passport-local`
 >
+> > [passport offical link](http://www.passportjs.org/)
+>
 > npm i `express-session` `connect-mongo` `cookie-parser`
 >
-> > express-session : 세션, connect-mongo : 로그인 유지, cookie-parser : 쿠키 분해
->
+> > [express-session](https://www.npmjs.com/package/express-session)
+> >
+> > [connect-mongo](https://www.npmjs.com/package/connect-mongo)
+> >
+> > [cookie-parser](https://www.npmjs.com/package/cookie-parser)
+
 > npm i `passport-local-mongoose`
 >
-> > [공식 문서](https://github.com/saintedlama/passport-local-mongoose)
+> > [passport-local-mongoose](https://github.com/saintedlama/passport-local-mongoose)
 
 ### 설정
 
@@ -420,9 +436,19 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
 - index.js
   > ![adwadaw](https://user-images.githubusercontent.com/46839654/69731784-d3c17580-116d-11ea-9909-c782587466db.png)
   >
-  > > **passport.initialize()**, **passport.session()** 👉 session을 처리하는 이 두가지를 꼭 잊지말고 넣어줘야 한다. (공식문서 참조)
+  > > **session의 secret은 암호화 문자열이다. 복잡하고 길어질 수록 좋다.**
+  > >
+  > > **passport.initialize()**, 👉 passport 모듈을 초기화한다.
+  > >
+  > > **passport.session()** 👉 session을 처리하는 이 두가지를 꼭 잊지말고 넣어줘야 한다. (공식문서 참조)
   >
-  > > **mongoose**, **connect-mongo** : 서버가 재시작 되면 세션 정보가 사라지기 때문에 DB에 세션을 저장한다.
+  > > **connect-mongo** : 서버가 재시작 되면 세션 정보가 사라지기 때문에 DB에 세션을 저장한다.
+  > >
+  > > 여기에서 설정 가능한 항목들을 확인해보자. [connect-mongo](https://www.npmjs.com/package/connect-mongo)
+  > >
+  > > 로그인 세션이 DB에 저장되면 이런 모양을 띈다.
+  > >
+  > > ![vbnds](https://user-images.githubusercontent.com/46839654/69908411-35166c80-142c-11ea-9166-83eba87c3d32.png)
   >
   > > `18~ 30줄`은 passport-local을 사용하기 위한 필수 설정임.
 - globalController.js
