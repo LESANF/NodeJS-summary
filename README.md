@@ -66,6 +66,8 @@
    > 자동으로 `npm`이 설치됨.
    >
    > npm이란? `node package manager`이다. Node 프로젝트의 패키지를 관리한다.
+   >
+   > 설치가 끝나면 터미널에서 `npm -v`과 `node -v`를 입력 해보자.
 4. VSC 설치 (텍스트 에디터)
    > 확장프로그램 `Prettier 필수`
    >
@@ -426,13 +428,19 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
 - globalController.js
   > ![123132](https://user-images.githubusercontent.com/46839654/69732122-63ffba80-116e-11ea-9460-f5b748749a7b.png)
   >
-  > > passport-local-mongoose에 의해 제공되는 `db.register({userObject}, password)` 는 비밀번호를 암호화해서 숨긴다.
+  > passport-local-mongoose에 의해 제공되는 `db.register({userObject}, password)` 는 비밀번호를 암호화해서 숨긴다.
   >
-  > > (실제로 스키마에도 비밀번호를 만들지 않았다)
+  > (실제로 스키마에도 비밀번호를 만들지 않았다)
+  >
+  > > **passport-local-mongoose를 사용하지 않는다면 로그인을 아래처럼 해야한다**
+  > >
+  > > ![qws](https://user-images.githubusercontent.com/46839654/69907977-68083280-1423-11ea-90af-856747553045.png)
 - globalRouter.js
   > ![globalRouter](https://user-images.githubusercontent.com/46839654/69732025-429ece80-116e-11ea-8ccb-d10520f45687.png)
   >
-  > > passport-local-mongoose에 의해 `req.logout()`이 제공된다.
+  > > passport에 의해 `req.logout()`이 제공된다.
+  > >
+  > > ![aqw](https://user-images.githubusercontent.com/46839654/69907965-4909a080-1423-11ea-88f4-544972e87a7d.png)
 - home.pug
   > ![home](https://user-images.githubusercontent.com/46839654/69732911-d58c3880-116f-11ea-8b63-2a29a3d7c579.png)
   >
