@@ -3,6 +3,8 @@
 - [3. 빠르게 서버 만들기](#express-서버-만들기)
 - [4. 라우터](#라우터-Router)
 - [5. 미들웨어](#미들웨어-Middleware)
+- [5-1. Nodemon](#Nodemon)
+- [5-2. multer](#Multer)
 - [6. 템플릿 엔진](#템플릿-엔진-pug)
 - [7. res.locals](#템플릿에서-접근이-가능한-속성-locals)
 - [8. express.static](#express-static)
@@ -206,6 +208,80 @@
 > 라우터 위에 작성하면 경로가 바뀔 때마다 실행된다.
 >
 > > `어떤 Function이든 미들웨어가 될 수 있다.`
+
+---
+
+# Nodemon
+
+`nodemon`은 프로젝트 폴더의 파일 변경이 감지되면 자동으로 서버를 재시작 하는 툴이다.
+
+### 설치
+
+> ![nodemon](https://user-images.githubusercontent.com/46839654/70028855-0c87a180-15e9-11ea-9d2e-d26a42cdf4c3.png)
+>
+> > 전역으로 설치해도 좋고, 개발자용으로 설치해도 좋다.
+
+### 사용법
+
+> ![nodemonusege](https://user-images.githubusercontent.com/46839654/70029037-7f911800-15e9-11ea-8193-677c803114a2.png)
+>
+> > 기본적으로는 `nodemon 'your server file'` 이다.
+
+### 설정
+
+> ![nodemonpackage](https://user-images.githubusercontent.com/46839654/70029174-d8f94700-15e9-11ea-8480-f5d10513e55f.png)
+>
+> > 설정에는 1. **package.json을 이용한 방법**, 2. **command line을 이용한 방법** 두가지가 있다.
+> >
+> > --config 파일을 지정하거나 `nodemon.json`이 감지되면 `package.json`에서의 설정은 무시된다.
+>
+> 기본적으로 babel-node와 nodemon을 사용한다고 하면 아래와 같이 설정한다.
+>
+> > ![nodemonpackagejson](https://user-images.githubusercontent.com/46839654/70029578-c5021500-15ea-11ea-87fc-fb5a619f1171.png)
+>
+> 부가적인 설정 (ignore, exec, delay, etc.) 들은 [nodemon npm](https://www.npmjs.com/package/nodemon)에서 확인해보자.
+
+---
+
+# Multer
+
+Multer는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루기 위한 node.js 의 미들웨어 입니다. 효율성을 최대화 하기 위해 busboy 를 기반으로 하고 있습니다.
+
+`주: Multer는 multipart (multipart/form-data)가 아닌 폼에서는 동작하지 않습니다.`
+
+> npm i multer
+>
+> > [사용법](https://github.com/expressjs/multer/blob/master/doc/README-ko.md)
+
+### 활용
+
+> 일단 간단하게 텍스트 파일을 읽어들이게 만들어 보겠다.
+>
+> [fs 문서](https://nodejs.org/api/fs.html)
+>
+> form 입력을 사용하기 때문에, bodyParser를 사용하였다.
+>
+> ![12](https://user-images.githubusercontent.com/46839654/70031719-38a62100-15ef-11ea-9bde-de6497477e68.png)
+>
+> > multer를 import해서 upload 안에 파일을 저장할 위치를 지정해준다.
+> >
+> > 그리고 파일이 업로드 되어 서버로 보내지는 시점에
+> >
+> > `multer({dest: "./uploads/"}).single("input의 name")` 을 삽입하면 된다.
+> >
+> > single()은 req.file에 파일이 저장된다.
+>
+> ![5435435](https://user-images.githubusercontent.com/46839654/70031760-4f4c7800-15ef-11ea-8e70-a760ed16f163.png)
+>
+> > 파일이나 이미지를 서버로 전송할 때 form의 enctype을 multipart/form-data로 준다.
+>
+> ![566456](https://user-images.githubusercontent.com/46839654/70031771-5a070d00-15ef-11ea-8c0d-244a66f5fbb2.png)
+>
+> > render를 통해 받은 데이터로 화면을 꾸민다.
+>
+> ![1241312](https://user-images.githubusercontent.com/46839654/70032274-7788a680-15f0-11ea-9111-f26891f9c1db.png) > ![21321asdas](https://user-images.githubusercontent.com/46839654/70032405-c7676d80-15f0-11ea-9742-8408abdd916b.png)
+>
+> > 서버에 저장된 파일명은 무작위로 생긴다.
 
 ---
 
