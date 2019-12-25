@@ -214,6 +214,18 @@
 
 만약 알 수 없는 경우에는 `application/octet-stream`으로 요청을 처리한다.
 
+### GET와 POST의 차이점
+
+`GET`은 동일한 요청과 동일한 응답이 돌아오고, `POST`는 동일한 요청과 응답은 항상 다를 수 있다.
+
+이에 따라 `POST`는 서버의 상태나 데이터를 변경할 때 사용한다.
+
+영상을 업로드하면 서버에 영상이 저장되고, 영상을 삭제하면 해당 데이터가 사라지는 등 서버의 데이터를 변경한다.
+
+이처럼 `POST`는 `create`, `update`, `delete`에 사용할 수 있지만
+
+`create`는 `POST`, `update`는 `PUT OR PATCH`, `delete`는 `DELETE`가 더 맞는 메소드라고 볼 수 있다.
+
 ### app.js
 
 ![router-app](https://user-images.githubusercontent.com/46839654/69612394-ee62f400-1072-11ea-94f5-121b8f539d73.png)
