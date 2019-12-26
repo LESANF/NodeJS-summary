@@ -13,11 +13,12 @@
 - [10-1. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
 - [10-2. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
 - [11. 민감한 정보, dotenv로 가리자](#dotenv)
-- [12. Gulp 시작하기](#Gulp를-시작하는-법)
-- [12-0 Gulp 기본문법](#Gulp-기본-문법)
-- [12-1 Gulp_pug](#Gulp-pug)
-- [12-2 Gulp_SASS](#Gulp-SASS)
-- [12-3 Gulp_Babel](#Gulp-Babel)
+- [12. 서버 코드를 구형 코드로 트랜스파일](#배포를-위해-서버-코드를-구형-코드로-변환)
+- [13. Gulp 시작하기](#Gulp를-시작하는-법)
+- [13-0 Gulp 기본문법](#Gulp-기본-문법)
+- [13-1 Gulp_pug](#Gulp-pug)
+- [13-2 Gulp_SASS](#Gulp-SASS)
+- [13-3 Gulp_Babel](#Gulp-Babel)
 
 # NodeJS
 
@@ -137,7 +138,7 @@
     > > `npm run dev:server` 명령어로 시작
 
 6. 자주 사용하는 패키지
-   - > Babel - `@babel/core`, `@babel/node`, `@babel/preset-env`
+   - > Babel - `@babel/core`, `@babel/node`, `@babel/preset-env` ( **devDependencies에 설치한다** )
      - > Babel 설정
        >
        > > ![babel](https://user-images.githubusercontent.com/46839654/69611403-0a659600-1071-11ea-9fb2-fc748e2516e5.PNG) ![babel_script](https://user-images.githubusercontent.com/46839654/69611417-105b7700-1071-11ea-872a-3f03ce1f0b12.PNG)
@@ -751,6 +752,91 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
   > ![dotenv1](https://user-images.githubusercontent.com/46839654/69740451-c19b0380-117c-11ea-8ac7-383e2df77abe.png)
   >
   > > 중요한 정보는 가려지고 작동은 잘 된다. **꼭 .env를 .gitignore에 등록해야 한다.**
+
+---
+
+# 배포를 위해 서버 코드를 구형 코드로 변환
+
+AWS 혹은 Heroku에 배포할 때에는 최신 문법으로 작성된 Node server 코드를 트랜스파일 해줘야 한다.
+
+> `npm i @babel/cli -D`
+>
+> > [babel-cli doc](https://babeljs.io/docs/en/babel-cli)
+
+설치를 다 했으면 아래와 같이 `scripts`를 작성하자.
+
+> ![image](https://user-images.githubusercontent.com/46839654/71459772-68aaa380-27ec-11ea-903a-b387a6ddc8ed.png)
+>
+> > `build:server`는 `src 폴더`를 `babel` 하는데, `--out (내보내는 형태)`는 `-dir (directory, 폴더)`로 `build 폴더`를 만들어서 집어넣겠다는 의미다.
+> >
+> > **다른 형태로 내보내고 싶다면 문서를 참조해보자.**
+
+우선, 현재 서버 구성은 이렇다.
+
+> ![image](https://user-images.githubusercontent.com/46839654/71459908-eff81700-27ec-11ea-8a89-1ec09587b29e.png)
+
+이제 `build:server`를 실행해보자.
+
+> ![image](https://user-images.githubusercontent.com/46839654/71459938-174ee400-27ed-11ea-864b-d0b3590b1b13.png) > ![image](https://user-images.githubusercontent.com/46839654/71459963-2df53b00-27ed-11ea-80ca-7ead3918f091.png)
+>
+> > `build` 폴더가 생겼다.
+
+결과물을 보도록 하자.
+
+> 아래와 같은 최신 문법의 코드가
+>
+> > ![image](https://user-images.githubusercontent.com/46839654/71460017-6eed4f80-27ed-11ea-8bdb-9362d51ee30c.png)
+>
+> 정상적으로 트랜스파일 되었다.
+>
+> > ![image](https://user-images.githubusercontent.com/46839654/71460019-6f85e600-27ed-11ea-9f63-02e32fbd83e1.png)
+
+그렇다면 트랜스파일 되어진 `build/server.js`로 서버를 구동해보자.
+
+> ![image](https://user-images.githubusercontent.com/46839654/71460091-c25f9d80-27ed-11ea-96a6-bc4bb0e08779.png) > ![123212132](https://user-images.githubusercontent.com/46839654/71460134-ec18c480-27ed-11ea-982a-881b7642a56f.gif)
+>
+> > 정상 작동한다.
+
+배포할 때에는 `NODE_ENV`를 설정해줘야 한다.
+
+실제 배포하는 것은 아니기 때문에 `cross-env(윈도우에서 환경 설정이 안되는 경우 사용)`를 사용했다.
+
+    "start": "cross-env NODE_ENV=production node build/server.js"
+
+> ![image](https://user-images.githubusercontent.com/46839654/71460523-90e7d180-27ef-11ea-92c4-e1f89c09dd72.png)
+>
+> > 다시 강조하지만 `cross-env`는 신경쓰지 않아도 된다.
+
+`배포 플랫폼`에서 `Linux`를 사용하는 경우 우리의 코드도 `UNIX`에 맞게 `start command`를 바꿔줘야 한다.
+
+    "start": "NODE_ENV=production node build/server.js"
+
+`Heroku`에 배포할 생각이라면 이정도 해두면 된다.
+
+`템플리트 엔진`을 사용하였다면 `pug`의 `script태그 src`와 `link태그 href`도 고쳐줘야 한다.
+
+    link(rel="stylesheet", href="/static/styles.css")
+
+    script(src="/static/main.js")
+
+> `app.use("/static", express.static(path.join(__dirname, "static")));`이 적용된 상태다.
+
+**추가적으로** `프론트엔드 css/js`도 최신 문법이라면 `모듈번들러`를 통해서 변환된 서버 코드가 있는 `build` 폴더에 집어넣어줘야 한다.
+
+    "scripts": {
+    "dev:server": "nodemon --exec babel-node src/init.js --delay 2 --ignore '.scss' --ignore 'static' ",
+    "dev:assets": "cd src && cross-env WEBPACK_ENV=development webpack -w", 👉 src로 이동한 후, 개발모드로 webpack-watch 모드 실행
+    "build:assets": "cd src && cross-env WEBPACK_ENV=production webpack", 👉 src 이동 후, 배포모드로 webpack 실행
+    "build:server": "babel src --out-dir build", 👉 src 폴더를 build 폴더에 트랜스파일
+    "copyAll": "cp -R 'src/static' 'build' && cp -R 'src/views' 'build'", 👉 src/static와 src/view를 build 폴더로 복사
+    "build": "npm run build:server && npm run build:assets && npm run copyAll", 👉 build command에 모두 실행되게 설정
+    "tunnel": "ngrok http 4000",
+    "start": "NODE_ENV=production node build/init.js" 👉 NODE_ENV가 'production(배포)'모드로 서버 실행
+    }
+
+> 위와 같이 작성하면 되는데, `주의사항`이라면 `배포 플랫폼`이 `Linux`를 사용한다면 위와 같이 `UNIX Command`를 사용해야 한다.
+>
+> 맥이나 리눅스로 작업하지 않고, `윈도우`로 처음부터 `WSL`을 사용하지 않았다면, 먼저 `window command`로 작성해두고 `UNIX Command`로 바꾸면 된다.
 
 ---
 
