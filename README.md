@@ -5,6 +5,7 @@
 - [5. 미들웨어](#미들웨어-Middleware)
 - [5-1. Nodemon](#Nodemon)
 - [5-2. multer](#Multer)
+- [5-3. body-parser](#body-parser)
 - [6. 템플릿 엔진](#템플릿-엔진-pug)
 - [7. res.locals](#템플릿에서-접근이-가능한-속성-locals)
 - [8. express.static](#express-static)
@@ -59,6 +60,14 @@
      > > `공용컴퓨터에선 --global로 설정 X`
    - > git config --unset `config.name` (--global이 아닌 설정 삭제)
    - > git config --unset --global `config.name` (--global인 설정 삭제)
+     > 단축 git command
+     > git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+     >
+     > > `git lg`를 입력하면 가독성 있게 보여준다. (`git log`는 동일하게 사용가능)
+     >
+     > git config --global alias.st status -> gir st (git status)
+     >
+     > > `git st`를 입력하면 `git status`와 같은 기능
 2. Windows 10 개발자모드 활성화
    - > 설정 > 업데이트&보안 > 개발자 > 개발자모드
      >
@@ -239,7 +248,7 @@
 >
 > `파라미터 변수의 값`은 해당 라우터의 콜백 함수에서 `req.params`로 받을 수 있다.
 >
-> `const { id } = req.params;`
+> `const { id } = req.params;` OR `const { params : {id} } = req;`
 
 ### results
 
@@ -345,6 +354,42 @@ Multer는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루
 > ![1241312](https://user-images.githubusercontent.com/46839654/70032274-7788a680-15f0-11ea-9111-f26891f9c1db.png) > ![21321asdas](https://user-images.githubusercontent.com/46839654/70032405-c7676d80-15f0-11ea-9742-8408abdd916b.png)
 >
 > > 서버에 저장된 파일명은 무작위로 생긴다.
+
+---
+
+# body parser
+
+`request`의 본문을 해석해주는 `미들웨어`다.
+
+보통 `form`의 데이터나 `AJAX request`의 데이터를 처리한다.
+
+express 4.1.6.0 버전부터 `body-parser`의 일부 기능이 `express`에 내장 되었다. 어떻게 사용하는지 보자.
+
+    👇 기존의 body-parser 미들웨어를 이용 👇
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false}));
+
+    👇 express에 내장된 body-parser의 일부 기능을 이용 👇
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+
+> urlencoded의 설정값 extended가 **false**면 `querysring` 모듈을 사용하여 쿼리스트링을 해석하고
+>
+> **true**면 `qs` 모듈을 이용하여 쿼리스트링을 해석한다.
+>
+> `qs`는 npm 패키지고, `querystring`은 내장 모듈이다. `qs`는 `querystring` 모듈의 기능을 조금 더 확장한 모듈이다.
+
+하지만 `body-parser`가 필요한 경우가 있다.
+
+`body-parser`는 **JSON**과 **URL-encoded** 형식의 본문 외에도 `Raw`, `Text` 형식의 본문을 추가로 해석할 수 있다.
+
+**body-parser**를 통해 받은 폼 데이터는 `req.body`에 저장된다.
+
+> ![image](https://user-images.githubusercontent.com/46839654/71476813-4d5e8900-282a-11ea-8834-1822d6e1142c.png) > ![image](https://user-images.githubusercontent.com/46839654/71476847-7aab3700-282a-11ea-9855-51040775fc6f.png)
+
+만약 **URL-encoded** 형식으로 `id=12312&pw=1231221`을 본문으로 보낸다면 위와 같이 **req.body**에 저장된다.
+
+**body-parser**가 모든 본문을 해석해주는 건 아니다. `multipart/form-data`같은 폼을 통해 전송된 데이터는 해석하지 못한다.
 
 ---
 
@@ -556,7 +601,9 @@ MongoDB를 사용하고 있음. 사용하기 엄청 쉽고 직관적임.
 
 ### body-parser
 
-form 입력 데이터를 백엔드에서 받으려면 `body-parser` 패키지가 필요하다. 설치를 해보자.
+form 입력 데이터를 백엔드에서 받으려면 `body-parser` 가 필요하다.
+
+express에 내장된 body-parser를 사용하려면 `5.3` 항목을 참조해보자.
 
 > npm i body-parser
 >
@@ -591,7 +638,7 @@ req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하�
   >
   > > 예를들어 video를 하나 업로드 했는데, 업로드에 성공하자 마자 그 video의 detail로 이동하게 만들고 싶다면
   >
-  > > `const video = db.create({});` 👉 `res.redirect(video.id);`
+  > > `const video = db.create({});` 👉 `res.redirect(/user/${user.id});`
   >
   > > 이런 흐름으로 코드를 작성하면 된다. 중간에 에러를 잡아내야 한다면 `try-catch`를 사용한다.
   >
