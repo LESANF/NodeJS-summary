@@ -807,13 +807,13 @@ AWS 혹은 Heroku에 배포할 때에는 최신 문법으로 작성된 Node serv
 >
 > > 다시 강조하지만 `cross-env`는 신경쓰지 않아도 된다.
 
-`배포 플랫폼`에서 `Linux`를 사용하는 경우 우리의 코드도 `UNIX`에 맞게 `start command`를 바꿔줘야 한다.
+**배포 플랫폼**에서 `Linux`를 사용하는 경우 우리의 코드도 `UNIX`에 맞게 `start command`를 바꿔줘야 한다.
+
+**Heroku**에 배포할 생각이라면 이정도 해두면 된다.
 
     "start": "NODE_ENV=production node build/server.js"
 
-`Heroku`에 배포할 생각이라면 이정도 해두면 된다.
-
-`템플리트 엔진`을 사용하였다면 `pug`의 `script태그 src`와 `link태그 href`도 고쳐줘야 한다.
+**템플리트 엔진**을 사용하였다면 `pug`의 `script태그 src`와 `link태그 href`도 고쳐줘야 한다.
 
     link(rel="stylesheet", href="/static/styles.css")
 
