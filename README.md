@@ -52,7 +52,7 @@
 
 ### 개발환경
 
-1. Git 설치 및 세팅
+1. Git 설치 및 세팅 [Git download](https://git-scm.com/)
    - > git config --list를 입력하면 현재 설정 값들을 볼 수 있다.
    - > git config --global `user.name` "**your name**"
    - > git config --global `user.email` "**your email**"
@@ -75,13 +75,13 @@
    - > Windows 기능 > **리눅스 하위 시스템** 활성화
      >
      > > ![devenable](https://user-images.githubusercontent.com/46839654/69611424-12253a80-1071-11ea-88dd-88d3141f2cec.PNG)
-3. NodeJS 설치
+3. NodeJS 설치 [Node download](https://nodejs.org/ko/)
    > 자동으로 `npm`이 설치됨.
    >
    > npm이란? `node package manager`이다. Node 프로젝트의 패키지를 관리한다.
    >
    > 설치가 끝나면 터미널에서 `npm -v`과 `node -v`를 입력 해보자.
-4. VSC 설치 (텍스트 에디터)
+4. VSC 설치 (텍스트 에디터) [VSC download](https://code.visualstudio.com/)
    > 확장프로그램 `Prettier 필수`
    >
    > > Prettier 설정
@@ -164,6 +164,8 @@
 
 # express 서버 만들기
 
+> **npm i express**
+>
 > [express 공식문서](https://expressjs.com/ko/)
 >
 > ![express](https://user-images.githubusercontent.com/46839654/69611438-18b3b200-1071-11ea-8321-bb4828b2d84e.PNG)
@@ -363,7 +365,7 @@ Multer는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루
 
 보통 `form`의 데이터나 `AJAX request`의 데이터를 처리한다.
 
-express 4.1.6.0 버전부터 `body-parser`의 일부 기능이 `express`에 내장 되었다. 어떻게 사용하는지 보자.
+express 4.1.6.0 버전부터 **body-parser**의 일부 기능이 **express**에 내장 되었다. 어떻게 사용하는지 보자.
 
     👇 기존의 body-parser 미들웨어를 이용 👇
     app.use(bodyParser.json());
@@ -868,7 +870,7 @@ AWS 혹은 Heroku에 배포할 때에는 최신 문법으로 작성된 Node serv
 
 > `app.use("/static", express.static(path.join(__dirname, "static")));`이 적용된 상태다.
 
-**추가적으로** `프론트엔드 css/js`도 최신 문법이라면 `모듈번들러`를 통해서 변환된 서버 코드가 있는 `build` 폴더에 집어넣어줘야 한다.
+추가적으로 **프론트엔드 css/js**도 최신 문법이라면 **모듈번들러**를 통해서 변환된 서버 코드가 있는 `build` 폴더에 집어넣어줘야 한다.
 
     "scripts": {
     "dev:server": "nodemon --exec babel-node src/init.js --delay 2 --ignore '.scss' --ignore 'static' ",
@@ -881,9 +883,77 @@ AWS 혹은 Heroku에 배포할 때에는 최신 문법으로 작성된 Node serv
     "start": "NODE_ENV=production node build/init.js" 👉 NODE_ENV가 'production(배포)'모드로 서버 실행
     }
 
-> 위와 같이 작성하면 되는데, `주의사항`이라면 `배포 플랫폼`이 `Linux`를 사용한다면 위와 같이 `UNIX Command`를 사용해야 한다.
+> 위와 같이 작성하면 되는데, **주의사항**이라면 **배포 플랫폼**이 **Linux**를 사용한다면 위와 같이 **UNIX Command**를 사용해야 한다.
 >
 > 맥이나 리눅스로 작업하지 않고, `윈도우`로 처음부터 `WSL`을 사용하지 않았다면, 먼저 `window command`로 작성해두고 `UNIX Command`로 바꾸면 된다.
+
+**다음은 실제 heroku build log다.**
+
+    -----> Node.js app detected
+
+    -----> Creating runtime environment
+
+       NPM_CONFIG_LOGLEVEL=error
+       NODE_ENV=production
+       NODE_MODULES_CACHE=true
+       NODE_VERBOSE=false
+
+    -----> Installing binaries
+       engines.node (package.json):  unspecified
+       engines.npm (package.json):   unspecified (use default)
+
+       Resolving node version 12.x...
+       Downloading and installing node 12.14.0...
+       Using default npm version: 6.13.4
+
+    -----> Restoring cache
+       - node_modules
+
+    -----> Installing dependencies
+       Installing node modules (package.json + package-lock)
+       audited 3986 packages in 5.345s
+
+       18 packages are looking for funding
+         run `npm fund` for details
+
+       found 0 vulnerabilities
+
+    -----> Build
+       Running build
+
+       > nodemongoapi@1.0.0 build /tmp/build_de7eaa1bf54f4f71bc86df36808deb83
+       > babel src --out-dir build
+
+       Successfully compiled 10 files with Babel.
+
+    -----> Caching build
+       - node_modules
+
+    -----> Pruning devDependencies
+       removed 396 packages and audited 192 packages in 4.94s
+
+       1 package is looking for funding
+         run `npm fund` for details
+
+       found 0 vulnerabilities
+
+    -----> Build succeeded!
+    -----> Discovering process types
+       Procfile declares types     -> (none)
+       Default types for buildpack -> web
+    -----> Compressing...
+       Done: 23.9M
+    -----> Launching...
+       Released v9
+       https://larry-mongo-api.herokuapp.com/ deployed to Heroku
+
+이렇게 `git push heroku master`를 실행하면 실행 순서가
+
+패키지 다운로드 👉 **build** command 실행 👉 개발자 모듈 제거 👉 압축 👉 배포로
+
+최종적으로 build 되어진 directory에서 `npm start`로 서버를 실행한다.
+
+위에서도 적었지만, **babel**은 서버만 트랜스파일 하기 때문에, 그 외 **템플릿**은 폴더 째로 복사해주고 **scss / js**는 모듈번들러를 통해서 변환한 후 build directory로 복사 해줘야 한다.
 
 ---
 
