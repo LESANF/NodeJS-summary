@@ -151,7 +151,7 @@
    - > Babel - `@babel/core`, `@babel/node`, `@babel/preset-env` ( **devDependencies에 설치한다** )
      - > Babel 설정
        >
-       > > ![babel](https://user-images.githubusercontent.com/46839654/69611403-0a659600-1071-11ea-9fb2-fc748e2516e5.PNG) ![babel_script](https://user-images.githubusercontent.com/46839654/69611417-105b7700-1071-11ea-872a-3f03ce1f0b12.PNG)
+       > > ![babel](https://user-images.githubusercontent.com/46839654/69611403-0a659600-1071-11ea-9fb2-fc748e2516e5.PNG) ![image](https://user-images.githubusercontent.com/46839654/71640106-25a66f80-2cc7-11ea-9ed0-d38c2fbfbd2a.png)
    - > express (서버)
    - > nodemon (서버 자동 재시작)
    - > helmet (보안)
@@ -169,17 +169,11 @@
 >
 > [express 공식문서](https://expressjs.com/ko/)
 >
-> ![express](https://user-images.githubusercontent.com/46839654/69611438-18b3b200-1071-11ea-8321-bb4828b2d84e.PNG)
+> ![image](https://user-images.githubusercontent.com/46839654/71640156-14aa2e00-2cc8-11ea-8997-f881a9a12feb.png) > ![image](https://user-images.githubusercontent.com/46839654/71640160-2c81b200-2cc8-11ea-82bb-a1481768768e.png)
 
-![example](https://user-images.githubusercontent.com/46839654/69611434-16e9ee80-1071-11ea-9ebf-e56f0efcafe0.PNG)
+`res.send(expression)`는 문자열을 띄어주고, `res.render("템플릿", {data})`는 템플릿을 보여주고, `res.json(data)`는 json 형태로 data를 반환한다.
 
-> 코드샌드박스라서 `app.listen()`에 PORT를 안적었는데
->
-> 실제 사용할 때는 express().listen(**port**, **function**)을 적어야 한다.
->
-> `res.send(expression)`는 문자열을 띄어주고, `res.render("템플릿", {data})`는 템플릿을 보여주고, `res.json(data)`는 json 형태로 data를 반환한다.
->
-> > 위의 코드는 **@Babel/preset-env**가 적용된 상태임. 적용하지 않으면 구형 자바스크립트를 사용해야함.
+위의 코드는 **@Babel/preset-env**가 적용된 상태임. 적용하지 않으면 구형 자바스크립트를 사용해야함.
 
 ---
 
@@ -187,7 +181,7 @@
 
 ### HTTP
 
-`GET`과 `POST`로 넘어가기 전에`HTTP 프로토콜`에 대해 알아보자.
+`GET`과 `POST`로 넘어가기 전에 **HTTP 프로토콜**에 대해 알아보자.
 
 > HTTP는 웹상에서 클라이언트와 서버 간에 요청/응답으로 데이터를 주고 받을 수 있는 프로토콜이다.
 >
@@ -201,9 +195,9 @@
 
 `GET`은 `request`를 전송할 때, 필요한 데이터를 `body`에 담지않고 `쿼리스트링`을 통해 전송한다.
 
-`URL`의 끝에 `?`와 함께 `name`과 `value`로 쌍을 이루는 요청 파라미터를 쿼리스트링이라고 부른다.
+`URL`의 끝에 `?`와 함께 **name**과 **value**로 쌍을 이루는 요청 파라미터를 쿼리스트링이라고 부른다.
 
-만약 `요청 파라미터`가 여러 개이면 `&`로 `연결`한다.
+만약 `요청 파라미터`가 여러 개이면 `&`로 연결한다.
 
 > i.e. **localhost:4000/search?term="Larry"&filter="age"**
 >
@@ -322,7 +316,7 @@
 
 Multer는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루기 위한 node.js 의 미들웨어 입니다. 효율성을 최대화 하기 위해 busboy 를 기반으로 하고 있습니다.
 
-`주: Multer는 multipart (multipart/form-data)가 아닌 폼에서는 동작하지 않습니다.`
+**주: Multer는 multipart (multipart/form-data)가 아닌 폼에서는 동작하지 않습니다.**
 
 > npm i multer
 >
@@ -362,7 +356,7 @@ Multer는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루
 
 # body parser
 
-`request`의 본문을 해석해주는 `미들웨어`다.
+`request`의 본문을 해석해주는 **미들웨어**다.
 
 보통 `form`의 데이터나 `AJAX request`의 데이터를 처리한다.
 
@@ -467,17 +461,23 @@ express 4.1.6.0 버전부터 **body-parser**의 일부 기능이 **express**에 
 # express static
 
 - Express 정적 파일 제공
-  > ![static](https://user-images.githubusercontent.com/46839654/69710884-803a3200-1143-11ea-82b1-399dea00bad1.png)
+
+  > ![image](https://user-images.githubusercontent.com/46839654/71640290-ac108080-2cca-11ea-94e3-3851d6519318.png) > ![image](https://user-images.githubusercontent.com/46839654/71640266-5340e800-2cca-11ea-8234-49e564560cde.png)
   >
   > > app.use()의 첫번째 인자, 경로를 생략하면 모든 경로에 static이 적용된다.
-- 사용 예제
-  > ![static](https://user-images.githubusercontent.com/46839654/69718430-b088cd00-1151-11ea-9450-2931572dc980.png)
   >
+  > **아래와 같이 URL로 접근이 가능하다.**
+  >
+  > > ![image](https://user-images.githubusercontent.com/46839654/71640262-30163880-2cca-11ea-8874-a1ef51e9777f.png)
+
+- 사용 예제
+
   > ![pug static](https://user-images.githubusercontent.com/46839654/69711162-ecb53100-1143-11ea-8bd0-48c86a6bc13a.png)
   >
   > ![pugjsstatic](https://user-images.githubusercontent.com/46839654/69711163-ed4dc780-1143-11ea-8f3d-6286f545aac6.png)
   >
   > > static 폴더가 모든 경로에서 기본값으로 지정되었기 때문에 파일을 지정할 때 이런 형식으로 사용한다.
+
 - 더 많은 정보
   > [Express에서 정적 파일 제공](https://expressjs.com/ko/starter/static-files.html)
 
@@ -529,7 +529,7 @@ Ajax는 `Asynchronous JavaScript and XML`의 약자이다. 해석하면 비동�
 >
 > > ![dawddnbfg](https://user-images.githubusercontent.com/46839654/69918199-77828c80-14b2-11ea-815b-13949d64dee0.png)
 > >
-> > `baseURL`로 기본 URL을 설정하고 get()에서 `baseURL + 나머지 URL`을 입력할 수 있다.
+> > `axios.create`로 기본 URL을 설정하고 get()에서 `baseURL + 나머지 URL`을 입력할 수 있다.
 > >
 > > 사용하는 API에서 params를 지원하는 경우 위처럼 활용이 가능하다.
 >
@@ -650,9 +650,9 @@ req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하�
   > ![UserCreatedconsole](https://user-images.githubusercontent.com/46839654/69717740-f6449600-114f-11ea-8ac0-6d68c2b566a7.png)
   >
   > > 정상적으로 DB에 등록이 된 것을 확인할 수 있다.
-  >
+  > >
   > > MongoDB는 자동으로 `_id(Object Id)`가 생기는데, 이를 통해 데이터 관리를 체계적으로 할 수 있다.
-  >
+  > >
   > > 예를들면, `db.users.findOne({id: object._id})`
 
 ---
@@ -684,23 +684,29 @@ SNS의 등장으로 **facebook** 또는 **카카오톡**과 같은 **OAuth 공�
 ❗ **Strategy**는 route에서 strategy를 사용하기 전에 먼저 구성해야 합니다.
 
 **Example**
+
 > ![image](https://user-images.githubusercontent.com/46839654/71638195-eebb6400-2c9c-11ea-9e1b-32ce9aff86ae.png)
 >
 > ![image](https://user-images.githubusercontent.com/46839654/71638267-fc71e900-2c9e-11ea-81d0-b20e1c9024fb.png)
+>
 > > token은 신경쓰지 않아도 된다. [nodeMongoAPI](https://github.com/Kunune/nodeMongoAPI)를 만드는 중 예시로 사용한 것이다.
 >
 > ![image](https://user-images.githubusercontent.com/46839654/71638274-1ad7e480-2c9f-11ea-9b00-816bc4adda8f.png)
+>
 > > 인증에 성공하면 **다음 핸들러**가 실행되고, **req.user** 속성이 **인증된 user**로 설정된다.
 
 `passport.authenticate()`가 성공적으로 로그인 되면 additional route handlers들이 호출된다.
 
 만약, 인증에 **실패**하면 기본적으로 **401 Unauthorized** 상태로 응답하며 router handler는 호출되지 않는다.
+
 > ![image](https://user-images.githubusercontent.com/46839654/71638249-72298500-2c9e-11ea-8845-e0d2bb465f78.png)
 
 **Redirects**
 
 이렇게 `passport.authenticate()` 실행 후 **additional route handler**를 실행하는 것 외에 **템플릿 엔진**을 사용해서 프론트를 작성할 경우
+
 > ![image](https://user-images.githubusercontent.com/46839654/71638319-e4e73000-2c9f-11ea-977b-09ab58c9cd58.png)
+>
 > > **이 경우**에는 `Redirection` 옵션이 기본 동작을 **무효화** 시킵니다.
 
 위와 같이 **인증 성공 시 redirect 경로**와 **인증 실패시 redirect 경로**를 설정해줄 수 있다.
@@ -708,8 +714,8 @@ SNS의 등장으로 **facebook** 또는 **카카오톡**과 같은 **OAuth 공�
 **Disable Sessions**
 
 인증에 성공하면 `Passport`는 `req.session.passport.user`에 user를 저장한다.
-> ![image](https://user-images.githubusercontent.com/46839654/71638570-da7c6480-2ca6-11ea-8db3-fcd588ef9a1f.png)
-![image](https://user-images.githubusercontent.com/46839654/71638572-f1bb5200-2ca6-11ea-8bbc-f7764b4505c7.png)
+
+> ![image](https://user-images.githubusercontent.com/46839654/71638570-da7c6480-2ca6-11ea-8db3-fcd588ef9a1f.png) > ![image](https://user-images.githubusercontent.com/46839654/71638572-f1bb5200-2ca6-11ea-8bbc-f7764b4505c7.png)
 
 이는 브라우저를 통해 웹앱에 접근하는 일반적인 사용자 시나리오에 유용하다.
 
@@ -718,29 +724,137 @@ SNS의 등장으로 **facebook** 또는 **카카오톡**과 같은 **OAuth 공�
 **API서버**는 일반적으로 각 요청과 함께 자격 증명을 제공해야 하는데, 이 경우 **session**을 **false**로 설정하여 세션을 안전하게 비활성화 할 수 있다.
 
 아래와 같이 작성하면 **기본값**으로 `session: true`가 된다.
+
 > ![image](https://user-images.githubusercontent.com/46839654/71638415-c2a2e180-2ca2-11ea-8f4f-54853a4e6d89.png)
 >
-> ![image](https://user-images.githubusercontent.com/46839654/71638425-072e7d00-2ca3-11ea-811e-8396b5565081.png)
-> ![image](https://user-images.githubusercontent.com/46839654/71638426-085faa00-2ca3-11ea-94e2-70c895008333.png)
+> ![image](https://user-images.githubusercontent.com/46839654/71638425-072e7d00-2ca3-11ea-811e-8396b5565081.png) > ![image](https://user-images.githubusercontent.com/46839654/71638426-085faa00-2ca3-11ea-94e2-70c895008333.png)
+>
 > > 지금 이 경우에는 API 서버기 때문에 **세션 관련 설정**을 모두 **제거**했다.
 > >
 > > 그래서 **직렬화 실패**와 `passport.initialize()`를 사용하라고 에러가 나왔다.
 
 이제 `session: false`를 설정해보자
+
 > ![image](https://user-images.githubusercontent.com/46839654/71638436-668c8d00-2ca3-11ea-9130-7aa93e113f35.png)
 >
 > ![image](https://user-images.githubusercontent.com/46839654/71638448-c2efac80-2ca3-11ea-8241-15a64f11edfe.png)
+>
 > > **session**을 **false**로 비활성화 해주니 세션 관련 **에러**가 나오지 않는다.
 
 ### 구성
 
 **Strategies**
 
+passport는 전략을 사용해 요청을 인증한다. 전략이란 username && password, OAuth를 사용한 위임된 인증 또는 OpenID를 사용한 연합 인증의 범위다.
+
+passport에 요청을 인증하도록 요청하기 전에 앱에서 사용하는 전략을 구성해야 한다.
+
+전략 및 구성은 `use()`를 통해 제공된다. 예를들어, 다음은 **JWT token**를 사용한 인증에 사용한다.
+> ![carbon](https://user-images.githubusercontent.com/46839654/71642706-df670580-2cf2-11ea-86e4-3de860ba8a7d.png)
+
 **Verify Callback**
+
+전략에는 콜백 확인 작업이 필요하다. 이 작업의 목적은 자격 증명을 가지고 있는 user를 찾는 것이다.
+
+passport는 요청을 인증할 때, 요청에 포함된 자격 증명을 구문 분석한다.
+
+그런 다음, 해당 자격 증명을 매개변수로 사용하여 verify callback을 호출한다. (이 경우 payload)
+
+인증 정보가 유효하면 verify callback의  `done`이 인증 된 user가 포함된 passport를 제공한다.
+
+    return done(null, user);
+
+비밀번호가 일치하지 않는 등 로그인 정보가 유효하지 않은 경우 
+
+인증 실패를 표시하기 위해 user 대신 false를 사용하여 `done`을 호출한다.
+
+    return done(null, false);
+
+실패 사유를 표시하기 위해 추가적인 정보가 담긴 메시지를 제공할 수 있다.
+
+이것은 user에게 다시 시도하라는 flash message를 표시하는데 유용하다.
+
+    return done(null, false, { message: 'Incorrect password.' });
+
+마지막으로 자격 증명을 확인하는 동안 **예외**가 발생한 경우 (예제 : 서버 에러, DB 접근 불가 등)
+
+Node 방식으로 **error**와 함께 `done`을 호출해야 한다.
+
+    return done(error, false);
+
+    or
+
+    return done(error) // error 이름은 변경될 수 있음. i.e. err
+
+두가지 인증 실패 사례가 발생할 수 있다. **서버 예외**는 error가 null이 아닌 값으로 설정된다. **인증 실패**는 서버가 정상 작동하는 자연 조건이다.
+
+Strategy를 구성한 다음, `passport.authenticate("인증 방식", options)` 구문을 실행하면 
+
+성공적으로 로그인 되었을 경우 `req.user`에 logged user의 정보가 들어가서
+
+`passport.authenticate(..., {successRedirect: "/", failureRedirect: "/login"})`와 같이 리디렉션 하거나
+
+매개변수로 (req, res, next(optional))를 갖는 `additional route handler`로 다른 작업을 하거나
+
+`passport.authenticate(..., ..., (error, user) => {})`와 같이 **Custom Callback**을 사용할 수 있다.
 
 **Middleware**
 
+express를 기반으로 하는 웹앱(템플릿 엔진 사용)의 경우 **passport**를 초기화하는 `passport.initialize()` 미들웨어가 필요하다.
+
+웹에서 페이지가 이동해도 로그인을 유지 시키고 싶으면 `passport.session()`도 사용해야 한다.
+
+다음은 session에 로그인 정보를 저장하기 위한 application settings 이다.
+
+    import session from "express-session";
+    import cookieParser from "cookie-parser";
+
+    app.use(express.static("public"));
+    app.use(session({
+       secret: "Encryption key",
+       other options...
+    }));
+    app.use(cookieParser());
+    app.use(express.json());
+    app.use(express.urlencoded({ extends: false}));
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+(아래 Sessions와 같이 봐야함)
+
+`passport.initialize()`은 `passport.serializeUser()`를 실행하여 loggedUser의 id만 session에 직렬화 한다.
+
+정리하면 `passport.serializeUser()`가 실행되면 `req.session.passport.user`에 usernameField로 설정된 DB 필드가 들어간다.
+
+`passport.session()`은 `passport.deserializeUser()`를 실행하여 최소한의 정보를 가지고 있는 `req.session.passport.user`에서 
+
+사용자를 식별할 수 있는 key로 DB 조회 후 얻은 **user**를 `req.user`로 삽입한다.
+
 **Sessions**
+
+일반적인 웹앱에서 사용자를 인증하는 데 사용되는 자격 증명은 로그인 요청 중에만 전송된다.
+
+인증에 성공하면 브라우저에 설정된 쿠키를 통해 세션이 설정되고 유지된다.
+
+이후의 각 요청에는 자격 증명이 아니라 세션을 식별하는 고유한 쿠키가 포함된다.
+
+로그인 세션을 지원하기 위해 Passport는 session과 **user**를 serialize 및 deserialize 한다.
+
+    passport.serializeUser(function(user, done) {
+      done(null, user.id);
+    });
+
+    passport.deserializeUser(function(id, done) {
+      User.findById(id, function(err, user) {
+        done(err, user);
+      });
+    });
+
+이 예에서는 세션 내에 데이터의 양을 작게 유지하면서 user.id만 세션에 serialize 되어진다.
+
+후속 요청이 수신되면 user.id는 사용자를 찾는 데 사용되며 이 사용자는 `req.user`로 복원된다.
+
+만약 세션을 사용하지 않는다면 `passport.initialize()`와 `passport.session()` 그리고 `express-session`은 제외해도 좋다.
 
 ---
 
