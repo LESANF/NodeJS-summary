@@ -362,13 +362,7 @@ Multer는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루
 
 express 4.1.6.0 버전부터 **body-parser**의 일부 기능이 **express**에 내장 되었다. 어떻게 사용하는지 보자.
 
-    👇 기존의 body-parser 미들웨어를 이용 👇
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false}));
-
-    👇 express에 내장된 body-parser의 일부 기능을 이용 👇
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
+![carbon (3)](https://user-images.githubusercontent.com/46839654/71643492-d29bdf00-2cfd-11ea-831d-7018b3cddc9f.png)
 
 > urlencoded의 설정값 extended가 **false**면 `querysring` 모듈을 사용하여 쿼리스트링을 해석하고
 >
@@ -762,29 +756,25 @@ passport는 요청을 인증할 때, 요청에 포함된 자격 증명을 구문
 
 인증 정보가 유효하면 verify callback의  `done`이 인증 된 user가 포함된 passport를 제공한다.
 
-    return done(null, user);
+![carbon (4)](https://user-images.githubusercontent.com/46839654/71643503-00812380-2cfe-11ea-8fba-5fe469482b52.png)
 
 비밀번호가 일치하지 않는 등 로그인 정보가 유효하지 않은 경우 
 
 인증 실패를 표시하기 위해 user 대신 false를 사용하여 `done`을 호출한다.
 
-    return done(null, false);
+![carbon (5)](https://user-images.githubusercontent.com/46839654/71643517-23133c80-2cfe-11ea-88c4-129f3df11506.png)
 
 실패 사유를 표시하기 위해 추가적인 정보가 담긴 메시지를 제공할 수 있다.
 
 이것은 user에게 다시 시도하라는 flash message를 표시하는데 유용하다.
 
-    return done(null, false, { message: 'Incorrect password.' });
+![carbon (6)](https://user-images.githubusercontent.com/46839654/71643519-33c3b280-2cfe-11ea-8923-fda63802fa0c.png)
 
 마지막으로 자격 증명을 확인하는 동안 **예외**가 발생한 경우 (예제 : 서버 에러, DB 접근 불가 등)
 
 Node 방식으로 **error**와 함께 `done`을 호출해야 한다.
 
-    return done(error, false);
-
-    or
-
-    return done(error) // error 이름은 변경될 수 있음. i.e. err
+![carbon (7)](https://user-images.githubusercontent.com/46839654/71643528-4b9b3680-2cfe-11ea-8768-ee0eaa40b964.png)
 
 두가지 인증 실패 사례가 발생할 수 있다. **서버 예외**는 error가 null이 아닌 값으로 설정된다. **인증 실패**는 서버가 정상 작동하는 자연 조건이다.
 
@@ -806,19 +796,7 @@ express를 기반으로 하는 웹앱(템플릿 엔진 사용)의 경우 **passp
 
 다음은 session에 로그인 정보를 저장하기 위한 application settings 이다.
 
-    import session from "express-session";
-    import cookieParser from "cookie-parser";
-
-    app.use(express.static("public"));
-    app.use(session({
-       secret: "Encryption key",
-       other options...
-    }));
-    app.use(cookieParser());
-    app.use(express.json());
-    app.use(express.urlencoded({ extends: false}));
-    app.use(passport.initialize());
-    app.use(passport.session());
+![carbon (2)](https://user-images.githubusercontent.com/46839654/71643480-99636f00-2cfd-11ea-8c1d-304310dc0603.png)
 
 (아래 Sessions와 같이 봐야함)
 
@@ -840,15 +818,7 @@ express를 기반으로 하는 웹앱(템플릿 엔진 사용)의 경우 **passp
 
 로그인 세션을 지원하기 위해 Passport는 session과 **user**를 serialize 및 deserialize 한다.
 
-    passport.serializeUser(function(user, done) {
-      done(null, user.id);
-    });
-
-    passport.deserializeUser(function(id, done) {
-      User.findById(id, function(err, user) {
-        done(err, user);
-      });
-    });
+![carbon (1)](https://user-images.githubusercontent.com/46839654/71643452-38d43200-2cfd-11ea-9173-ad92a663ab67.png)
 
 이 예에서는 세션 내에 데이터의 양을 작게 유지하면서 user.id만 세션에 serialize 되어진다.
 
@@ -1091,63 +1061,7 @@ AWS 혹은 Heroku에 배포할 때에는 최신 문법으로 작성된 Node serv
 
 **다음은 실제 heroku build log다.**
 
-    -----> Node.js app detected
-
-    -----> Creating runtime environment
-
-       NPM_CONFIG_LOGLEVEL=error
-       NODE_ENV=production
-       NODE_MODULES_CACHE=true
-       NODE_VERBOSE=false
-
-    -----> Installing binaries
-       engines.node (package.json):  unspecified
-       engines.npm (package.json):   unspecified (use default)
-
-       Resolving node version 12.x...
-       Downloading and installing node 12.14.0...
-       Using default npm version: 6.13.4
-
-    -----> Restoring cache
-       - node_modules
-
-    -----> Installing dependencies
-       Installing node modules (package.json + package-lock)
-       audited 3986 packages in 5.345s
-
-       18 packages are looking for funding
-         run `npm fund` for details
-
-       found 0 vulnerabilities
-
-    -----> Build
-       Running build
-
-       > nodemongoapi@1.0.0 build /tmp/build_de7eaa1bf54f4f71bc86df36808deb83
-       > babel src --out-dir build
-
-       Successfully compiled 10 files with Babel.
-
-    -----> Caching build
-       - node_modules
-
-    -----> Pruning devDependencies
-       removed 396 packages and audited 192 packages in 4.94s
-
-       1 package is looking for funding
-         run `npm fund` for details
-
-       found 0 vulnerabilities
-
-    -----> Build succeeded!
-    -----> Discovering process types
-       Procfile declares types     -> (none)
-       Default types for buildpack -> web
-    -----> Compressing...
-       Done: 23.9M
-    -----> Launching...
-       Released v9
-       https://larry-mongo-api.herokuapp.com/ deployed to Heroku
+![carbon (9)](https://user-images.githubusercontent.com/46839654/71643554-8ef5a500-2cfe-11ea-9e04-c72cba411272.png)
 
 이렇게 `git push heroku master`를 실행하면 실행 순서가
 
