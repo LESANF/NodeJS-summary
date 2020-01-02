@@ -830,11 +830,15 @@ express를 기반으로 하는 웹앱(템플릿 엔진 사용)의 경우 **passp
 
 # PassportLocalMongoose를 통한 회원가입
 
-Passport를 통해서 local 로그인을 구현할 수 있다.
+보통 passport로 **local** 로그인을 구현할 때, **passport-local**을 사용한다.
+
+하지만 당신이 **mongoDB**와 **Node.js**, **Passport**를 사용한다면 다양한 기능이 있는 패키지를 사용할 수 있다.
+
+바로 `passport-local-mongoose`다. 다양한 기능을 지원하고, 연결도 매우 간편해졌다.
 
 ### 설치
 
-> npm i `passport` `passport-local`
+> npm i `passport`
 >
 > > [passport offical link](http://www.passportjs.org/)
 >
@@ -845,107 +849,137 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
 > > [connect-mongo](https://www.npmjs.com/package/connect-mongo)
 > >
 > > [cookie-parser](https://www.npmjs.com/package/cookie-parser)
-
+>
 > npm i `passport-local-mongoose`
 >
 > > [passport-local-mongoose](https://github.com/saintedlama/passport-local-mongoose)
 
-### 설정
+### DB 설정
 
-> 코드가 지저분하여 모듈로 나누었다.
+먼저, User Schema를 생성한다. 그런 다음, User Schema에 **plugin**을 사용한다.
 
-- UserSchema.js (Model)
-  > ![dawdawdawd](https://user-images.githubusercontent.com/46839654/69728116-36634300-1167-11ea-8b80-fd337b4efa86.png)
-  >
-  > > `passport-local-mongoose`를 import하고 UserSchema에 플러그인을 사용한다.
-  >
-  > > UserSchema에만 passport-local-mongoose 플러그인을 사용하면 된다.
-- passport.js
-  > ![adwadaw](https://user-images.githubusercontent.com/46839654/69728902-acb47500-1168-11ea-9f1e-c3b190397c95.png)
-  >
-  > `serializeUser`는 로그인 성공 시 실행되는 done(null, user)에서 user 객체를 전달받아 `req.session.passport.user`에 user를 집어넣고
-  >
-  > `deserializeUser`는 실제 서버로 들어오는 요청마다 세션 정보(serialize에 의해 저장된)를 DB의 데이터와 비교하고 해당하는 유저 정보가 존재하면 `req.user`에 저장한다.
-  >
-  > 만약 passport-local-mongoose를 `사용하지 않는다면` 아래처럼 작성해야 한다.
-  >
-  > **password 저장시 꼭 암호화를 해야한다.**
-  >
-  > > ![passportOriginal](https://user-images.githubusercontent.com/46839654/69728704-4deefb80-1168-11ea-9356-22f2121fd255.png)
-- index.js
-  > ![adwadaw](https://user-images.githubusercontent.com/46839654/69731784-d3c17580-116d-11ea-9909-c782587466db.png)
-  >
-  > > **session의 secret은 암호화 문자열이다. 복잡하고 길어질 수록 좋다.**
-  > >
-  > > **passport.initialize()**, 👉 passport 모듈을 초기화한다.
-  > >
-  > > **passport.session()** 👉 session을 처리하는 이 두가지를 꼭 잊지말고 넣어줘야 한다. (공식문서 참조)
-  >
-  > > **connect-mongo** : 서버가 재시작 되면 세션 정보가 사라지기 때문에 DB에 세션을 저장한다.
-  > >
-  > > 여기에서 설정 가능한 항목들을 확인해보자. [connect-mongo](https://www.npmjs.com/package/connect-mongo)
-  > >
-  > > 로그인 세션이 DB에 저장되면 이런 모양을 띈다.
-  > >
-  > > ![vbnds](https://user-images.githubusercontent.com/46839654/69908411-35166c80-142c-11ea-9166-83eba87c3d32.png)
-  >
-  > > `18~ 30줄`은 passport-local을 사용하기 위한 필수 설정임.
-- globalController.js
-  > ![123132](https://user-images.githubusercontent.com/46839654/69732122-63ffba80-116e-11ea-9460-f5b748749a7b.png)
-  >
-  > passport-local-mongoose에 의해 제공되는 `db.register({userObject}, password)` 는 비밀번호를 salt로 암호화해서 숨긴다.
-  >
-  > (실제로 스키마에도 비밀번호를 만들지 않았다)ㄷ
-  >
-  > 👇 **관련 내용** 👇
-  >
-  > > ![qws](https://user-images.githubusercontent.com/46839654/69907977-68083280-1423-11ea-90af-856747553045.png)
-  > >
-  > > 로그인 작업이 완료되면 `user`는 `req.user`에 할당된다.
-  > >
-  > > `passport.authenticate()` 미들웨어가 `req.login()`을 자동으로 호출한다.
-  > >
-  > > 이 기능은 회원가입할 때 주로 사용하며 `req.login()`하는 동안 새로 등록한 `user`를 자동으로 로그인 시킬 수 있다.
-  > >
-  > > ![image](https://user-images.githubusercontent.com/46839654/71445176-e58d3d00-275a-11ea-9611-b82e8ba98b9a.png)
-  > >
-  > > `Authenticate request`는 `passport.authenticate()`에서 전략을 호출과 지정하면 끝날 정도로 간단하다.
-  > >
-  > > 기본적으로 인증이 실패하면 `Passport`는 `401 Unauthorized` 상태로 응답하며 `추가 경로 핸들러`는 호출되지 않음.
-  > >
-  > > 인증이 성공하면 `다음 핸들러`가 호출되고 `req.user`는 인증된 `user`로 설정이 된다.
-  > >
-  > > ![image](https://user-images.githubusercontent.com/46839654/71445135-7adc0180-275a-11ea-8d68-a6ad9bebdeaf.png)
-  > >
-  > > `redirection`은 일반적으로 요청을 인증한 후에 실행된다.
-  > >
-  > > 위와 같이 작성하게 되면 `redirect` 옵션이 기본 동작보다 먼저 실행된다. 인증에 성공하면 홈 페이지로 이동하고, 실패하면 로그인 페이지로 다시 이동한다.
-- globalRouter.js
-  > ![globalRouter](https://user-images.githubusercontent.com/46839654/69732025-429ece80-116e-11ea-8ccb-d10520f45687.png)
-  >
-  > > passport에 의해 `req.logout()`이 제공된다.
-  > >
-  > > ![aqw](https://user-images.githubusercontent.com/46839654/69907965-4909a080-1423-11ea-88f4-544972e87a7d.png)
-- home.pug
-  > ![home](https://user-images.githubusercontent.com/46839654/69732911-d58c3880-116f-11ea-8b63-2a29a3d7c579.png)
-  >
-  > > 로그인 정보, 로그인, 회원가입, 로그아웃을 간단히 만들었다.
-- 실행 결과
-  > 최초 접속 시 화면
-  >
-  > ![a](https://user-images.githubusercontent.com/46839654/69733282-74b13000-1170-11ea-9693-eea150c3cbe5.png)
-  >
-  > 회원가입
-  >
-  > ![h](https://user-images.githubusercontent.com/46839654/69733143-3287ee80-1170-11ea-8d93-c528584f49fd.png)
-  >
-  > > 작동
-  >
-  > 로그인
-  >
-  > ![b](https://user-images.githubusercontent.com/46839654/69733310-7ed32e80-1170-11ea-8e89-ecf6a0821c75.png)
-  >
-  > > res.locals에 의해 `req.user 객체`가 보여진다.
+**password field**를 따로 만들 필요는 없다. **plugin**에서 제공하는 Salt 암호화를 사용할 예정이다.
+> ![image](https://user-images.githubusercontent.com/46839654/71663471-b9943c00-2d98-11ea-9bf4-41e320cf8ef3.png)
+>
+> > import 되어진 `passport-local-mongoose`를 UserSchema에 플러그인을 사용한다.
+> >
+> > UserSchema에만 passport-local-mongoose 플러그인을 사용하면 된다.
+> >
+> > 주의사항이 있다면 `UserSchema.plugin(passportLocalMongoose, option)`을 적어줘야 하는데
+> >
+> > option 중 **usernameField**는 설정하지 않으면 **기본 값**이 **username**이 된다.
+> >
+> > **usernameFiled**란 로그인할 때, ID 혹은 username, email로 입력받을 필드를 뜻 한다.
+> >
+> > 만약 **email**이나 다른 unique한 필드로 설정하고 싶다면 `{usernameField: "field name"}`를 option에 적어주면 된다.
+
+### 전략
+
+다음으로 사용할 전략을 `passport.use()`로 설정해주면 된다.
+
+다만 다른 passport strategy들과 다른 점이 있다면 `passport-local`이 아닌 `User.createStrategy()`을 사용한다.
+> ![image](https://user-images.githubusercontent.com/46839654/71664339-fd3c7500-2d9b-11ea-855b-ee2389fd958e.png)
+>
+> ![adwadaw](https://user-images.githubusercontent.com/46839654/69728902-acb47500-1168-11ea-9f1e-c3b190397c95.png)
+>
+> `serializeUser`와 `deserializeUser`에 대한 설명은 passport 항목의 sessions를 참조해보자.
+> 
+> 여기에서 사용하는 것은 **그 과정**을 단축해둔 것이다.
+>
+> 👇 만약 passport-local-mongoose를 `사용하지 않는다면` 아래처럼 작성해야 한다. 👇
+>
+> ![image](https://user-images.githubusercontent.com/46839654/71666903-41cd0e00-2da6-11ea-9fa0-50c7d9e61472.png)
+> ![image](https://user-images.githubusercontent.com/46839654/71666850-0d595200-2da6-11ea-8d05-de9bc8efa01b.png)
+
+### 미들웨어
+
+다음은 passport 문서에서 제공하는 페이지 변경 시에도 로그인을 유지 시키기 위한 필수 미들웨어 목록이다.
+
+다시 강조하지만 session을 사용하지 않는다면 관련 미들웨어는 사용하지 않아도 된다.
+> ![carbon (2)](https://user-images.githubusercontent.com/46839654/71643480-99636f00-2cfd-11ea-8c1d-304310dc0603.png)
+> > **express-session**과 **cookieParser**를 설치해야 한다.
+> >
+> > 추가적인 본문을 해석하려면 **body-parser**를 설치하면 된다.
+>
+> ![adwadaw](https://user-images.githubusercontent.com/46839654/69731784-d3c17580-116d-11ea-9909-c782587466db.png)
+>
+> > **18~ 30줄**은 passport-local과 session을 사용하기 위한 필수 설정임.
+> >
+> > **session의 secret은 암호화 문자열이다. 복잡하고 길어질 수록 좋다.**
+> >
+> > **passport.initialize()**, 👉 passport 모듈을 초기화한다.
+> >
+> > **passport.session()** 👉 session을 처리하는 이 두가지를 꼭 잊지말고 넣어줘야 한다. (공식문서 참조)
+> >
+> > **connect-mongo** : 서버가 재시작 되면 세션 정보가 사라지기 때문에 DB에 세션을 저장한다.
+> >
+> > 여기에서 설정 가능한 항목들을 확인해보자. [connect-mongo](https://www.npmjs.com/package/connect-mongo)
+>
+> 로그인 세션이 DB에 저장되면 이런 모양을 띈다.
+>
+> ![vbnds](https://user-images.githubusercontent.com/46839654/69908411-35166c80-142c-11ea-9166-83eba87c3d32.png)
+
+
+### 라우트 핸들러
+
+이제 POST로 로그인 폼 데이터를 받으면 해당 user를 찾아서 로그인 시켜줘야 한다.
+
+❗ **로그인 전에 회원가입부터 시켜야 한다.**
+> ![image](https://user-images.githubusercontent.com/46839654/71666116-f107e600-2da2-11ea-8eeb-d399d74865ec.png)
+>
+> > passport-local-mongoose에 의해 제공되는 `db.register({userObject}, password)` 는 비밀번호를 salt로 암호화해서 숨긴다.
+> >
+> > ❗ **실제로 스키마에도 비밀번호를 만들지 않았다**
+
+로그인 시키기 위해 다음과 같이 코드를 짤 수 있다.
+  > ![image](https://user-images.githubusercontent.com/46839654/71666135-01b85c00-2da3-11ea-854d-42164d9c308a.png)
+  
+👇 **passport 공식 문서에서는 다양한 로그인 방법을 제공한다.** 👇
+
+> ![image](https://user-images.githubusercontent.com/46839654/71445176-e58d3d00-275a-11ea-9611-b82e8ba98b9a.png)
+> >
+> > `Authenticate request`는 `passport.authenticate()`에서 전략을 호출과 지정하면 끝날 정도로 간단하다.
+> >
+> > 기본적으로 인증이 실패하면 `Passport`는 `401 Unauthorized` 상태로 응답하며 `추가 경로 핸들러`는 호출되지 않음.
+> >
+> > 인증이 성공하면 `다음 핸들러`가 호출되고 `req.user`는 인증된 `user`로 설정이 된다.
+>
+> ![qws](https://user-images.githubusercontent.com/46839654/69907977-68083280-1423-11ea-90af-856747553045.png)
+> > 로그인 작업이 완료되면 `user`는 `req.user`에 할당된다.
+> >
+> > `passport.authenticate()` 미들웨어가 `req.login()`을 자동으로 호출한다.
+> >
+> > 이 기능은 회원가입할 때 주로 사용하며 `req.login()`하는 동안 새로 등록한 `user`를 자동으로 로그인 시킬 수 있다.
+> 
+> ![image](https://user-images.githubusercontent.com/46839654/71445135-7adc0180-275a-11ea-8d68-a6ad9bebdeaf.png)
+> > `redirection`은 일반적으로 요청을 인증한 후에 실행된다.
+> >
+> > 위와 같이 작성하게 되면 `redirect` 옵션이 기본 동작보다 먼저 실행된다. 인증에 성공하면 홈 페이지로 이동하고, 실패하면 로그인 페이지로 다시 이동한다.
+
+### 로그아웃
+> ![globalRouter](https://user-images.githubusercontent.com/46839654/69732025-429ece80-116e-11ea-8ccb-d10520f45687.png)
+
+passport에 의해 `req.logout()`이 제공된다.
+> ![aqw](https://user-images.githubusercontent.com/46839654/69907965-4909a080-1423-11ea-88f4-544972e87a7d.png)
+
+
+### 템플릿
+템플릿을 간단하게 만들어 보았다.
+> ![home](https://user-images.githubusercontent.com/46839654/69732911-d58c3880-116f-11ea-8b63-2a29a3d7c579.png)
+
+### 실행 결과
+
+최초 접속 시 화면
+> ![a](https://user-images.githubusercontent.com/46839654/69733282-74b13000-1170-11ea-9693-eea150c3cbe5.png)
+
+회원가입
+> ![h](https://user-images.githubusercontent.com/46839654/69733143-3287ee80-1170-11ea-8d93-c528584f49fd.png)
+
+로그인
+> ![b](https://user-images.githubusercontent.com/46839654/69733310-7ed32e80-1170-11ea-8e89-ecf6a0821c75.png)
+> > res.locals에 의해 `req.user 객체`가 보여진다.
+> >
+> > ![carbon](https://user-images.githubusercontent.com/46839654/71666633-1ac20c80-2da5-11ea-9488-cfdae61ff942.png)
 
 ---
 
@@ -954,7 +988,7 @@ Passport를 통해서 local 로그인을 구현할 수 있다.
 > github 등에 코드를 업로드 하게되면 자신의 API key, DB주소 및 계정 등 보여지지 말아야 할 것들이 올라가는 경우가 있다.
 >
 > 이런 상황을 위해 만들어진 패키지로, 사용법은 매우 간단하다.
-
+>
 > npm install `dotenv`
 >
 > > [npm link](https://www.npmjs.com/package/dotenv)
