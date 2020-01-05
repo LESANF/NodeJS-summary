@@ -1,5 +1,7 @@
 ### 오타 / 누락 / 내용 추가는 이슈 주세요.
 
+#### React 정리 [바로가기](https://github.com/Kunune/React-summary)
+
 - [1. Node.js란?](#NodeJS)
 - [2. 개발환경 세팅](#프로젝트-시작하기)
 - [3. 빠르게 서버 만들기](#express-서버-만들기)
@@ -1223,9 +1225,8 @@ AWS 혹은 Heroku에 배포할 때에는 최신 문법으로 작성된 Node serv
 배포할 때에는 `NODE_ENV`를 설정해줘야 한다.
 
 실제 배포하는 것은 아니기 때문에 `cross-env(윈도우에서 환경 설정이 안되는 경우 사용)`를 사용했다.
-
-    "start": "cross-env NODE_ENV=production node build/server.js"
-
+> ![carbon (6)](https://user-images.githubusercontent.com/46839654/71782969-a052f000-3023-11ea-81a2-02b42575153b.png)
+>
 > ![image](https://user-images.githubusercontent.com/46839654/71460523-90e7d180-27ef-11ea-92c4-e1f89c09dd72.png)
 >
 > > 다시 강조하지만 `cross-env`는 신경쓰지 않아도 된다.
@@ -1233,30 +1234,16 @@ AWS 혹은 Heroku에 배포할 때에는 최신 문법으로 작성된 Node serv
 **배포 플랫폼**에서 `Linux`를 사용하는 경우 우리의 코드도 `UNIX`에 맞게 `start command`를 바꿔줘야 한다.
 
 **Heroku**에 배포할 생각이라면 이정도 해두면 된다.
-
-    "start": "NODE_ENV=production node build/server.js"
+> ![carbon (7)](https://user-images.githubusercontent.com/46839654/71782975-c37d9f80-3023-11ea-9d81-ca5e5f066c41.png)
 
 **템플리트 엔진**을 사용하였다면 `pug`의 `script태그 src`와 `link태그 href`도 고쳐줘야 한다.
-
-    link(rel="stylesheet", href="/static/styles.css")
-
-    script(src="/static/main.js")
-
+> ![carbon (8)](https://user-images.githubusercontent.com/46839654/71782985-db552380-3023-11ea-942e-15596b5e9b06.png)
+>
 > `app.use("/static", express.static(path.join(__dirname, "static")));`이 적용된 상태다.
 
 추가적으로 **프론트엔드 css/js**도 최신 문법이라면 **모듈번들러**를 통해서 변환된 서버 코드가 있는 `build` 폴더에 집어넣어줘야 한다.
-
-    "scripts": {
-    "dev:server": "nodemon --exec babel-node src/init.js --delay 2 --ignore '.scss' --ignore 'static' ",
-    "dev:assets": "cd src && cross-env WEBPACK_ENV=development webpack -w", 👉 src로 이동한 후, 개발모드로 webpack-watch 모드 실행
-    "build:assets": "cd src && cross-env WEBPACK_ENV=production webpack", 👉 src 이동 후, 배포모드로 webpack 실행
-    "build:server": "babel src --out-dir build", 👉 src 폴더를 build 폴더에 트랜스파일
-    "copyAll": "cp -R 'src/static' 'build' && cp -R 'src/views' 'build'", 👉 src/static와 src/view를 build 폴더로 복사
-    "build": "npm run build:server && npm run build:assets && npm run copyAll", 👉 build command에 모두 실행되게 설정
-    "tunnel": "ngrok http 4000",
-    "start": "NODE_ENV=production node build/init.js" 👉 NODE_ENV가 'production(배포)'모드로 서버 실행
-    }
-
+> ![carbon (9)](https://user-images.githubusercontent.com/46839654/71782992-135c6680-3024-11ea-9d48-55553dd72a60.png)
+>
 > 위와 같이 작성하면 되는데, **주의사항**이라면 **배포 플랫폼**이 **Linux**를 사용한다면 위와 같이 **UNIX Command**를 사용해야 한다.
 >
 > 맥이나 리눅스로 작업하지 않고, `윈도우`로 처음부터 `WSL`을 사용하지 않았다면, 먼저 `window command`로 작성해두고 `UNIX Command`로 바꾸면 된다.
