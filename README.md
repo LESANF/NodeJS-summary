@@ -18,14 +18,15 @@
 - [10-1. MongoDB 데이터 삽입](#MongoDB-모델-만들고-데이터-삽입하기)
 - [10-2. Passport란?](#Passport)
 - [10-3. Passport-local-mongoose로 회원가입 만들기](#PassportLocalMongoose를-통한-회원가입)
-- [11. 민감한 정보, dotenv로 가리자](#dotenv)
-- [12. AWS S3](#AWS-S3)
-- [13. 서버 코드를 구형 코드로 트랜스파일](#배포를-위해-서버-코드를-구형-코드로-변환)
-- [14. Gulp 시작하기](#Gulp를-시작하는-법)
-- [14-0 Gulp 기본문법](#Gulp-기본-문법)
-- [14-1 Gulp_pug](#Gulp-pug)
-- [14-2 Gulp_SASS](#Gulp-SASS)
-- [14-3 Gulp_Babel](#Gulp-Babel)
+- [11. Flash message](#express-flash)
+- [12. 민감한 정보, dotenv로 가리자](#dotenv)
+- [13. AWS S3](#AWS-S3)
+- [14. 서버 코드를 구형 코드로 트랜스파일](#배포를-위해-서버-코드를-구형-코드로-변환)
+- [15. Gulp 시작하기](#Gulp를-시작하는-법)
+- [16-0 Gulp 기본문법](#Gulp-기본-문법)
+- [16-1 Gulp_pug](#Gulp-pug)
+- [16-2 Gulp_SASS](#Gulp-SASS)
+- [16-3 Gulp_Babel](#Gulp-Babel)
 
 # NodeJS
 
@@ -66,7 +67,9 @@
      > > `공용컴퓨터에선 --global로 설정 X`
    - > git config --unset `config.name` (--global이 아닌 설정 삭제)
    - > git config --unset --global `config.name` (--global인 설정 삭제)
-     > 단축 git command
+     >
+     > **단축 git command**
+     >
      > git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
      >
      > > `git lg`를 입력하면 가독성 있게 보여준다. (`git log`는 동일하게 사용가능)
@@ -77,10 +80,10 @@
 2. Windows 10 개발자모드 활성화
    - > 설정 > 업데이트&보안 > 개발자 > 개발자모드
      >
-     > > ![devenable2](https://user-images.githubusercontent.com/46839654/69611428-13566780-1071-11ea-9286-641ffed52c42.PNG)
+     > > ![image](https://user-images.githubusercontent.com/46839654/71971886-ed66da00-324e-11ea-8cbd-d2b0d7d4ab6c.png)
    - > Windows 기능 > **리눅스 하위 시스템** 활성화
      >
-     > > ![devenable](https://user-images.githubusercontent.com/46839654/69611424-12253a80-1071-11ea-88dd-88d3141f2cec.PNG)
+     > > ![image](https://user-images.githubusercontent.com/46839654/71971785-aed11f80-324e-11ea-8484-f96f876f9c29.png)
 3. NodeJS 설치 [Node download](https://nodejs.org/ko/)
    > 자동으로 `npm`이 설치됨.
    >
@@ -110,7 +113,11 @@
    > >
    > > 설치가 끝나면 실행해서 잠시 기다린 다음, username과 password를 입력한다.
    > >
-   > > 이건 Ubuntu지만 아무것도 설치되어있지 않기 때문에, `설정법`은 다른 개발 블로그들을 확인하자.
+   > > 이건 Ubuntu지만 아무것도 설치되어있지 않기 때문에 [여기](https://docs.microsoft.com/ko-kr/windows/nodejs/setup-on-wsl2)에서 node.js 설정법을 참고해보자.
+   > >
+   > > Ubuntu에는 기본적으로 Git이 설치되어 있다. (여기에 설치되어 있다 하더라도 vsc 용 윈도우 git도 설치해야 한다)
+   > >
+   > > Node.js를 설치한 후, git config을 해줘야 한다. `user.name`과 `user.email`을 설정해주자. + 단축 config
    > >
    > > `Ctrl` + `,`으로 VSC 설정을 연다. 그런 다음 `terminal.integrated.shell.windows`을 검색한다.
    > >
@@ -1060,6 +1067,92 @@ passport에 의해 `req.logout()`이 제공된다.
 > > res.locals에 의해 **req.user 객체**가 보여진다.
 > >
 > > ![carbon](https://user-images.githubusercontent.com/46839654/71666633-1ac20c80-2da5-11ea-9488-cfdae61ff942.png)
+
+---
+
+# express-flash
+
+이 모듈은 우리 홈페이지에 접속한 user에게 메시지를 보낼 수 있는 모듈이다.
+
+임시적으로 html에 메시지를 추가해준다고 보면 된다.
+
+주로 언제 사용하냐면, 글이 삭제되면 "deleted"라는 메시지, 로그인 비밀번호가 틀리면 "do not match" 라는 메시지 등을 보여주고 싶을 때 사용한다.
+
+### Requires
+
+npm i **express-flash**
+> [express-flash](https://www.npmjs.com/package/express-flash)
+
+npm i **cookie-parser** **express-session**
+
+### Usage
+
+![image](https://user-images.githubusercontent.com/46839654/71956308-2478c380-322e-11ea-8caa-800dc305cd4f.png)
+> 우선 패키지들을 불러온다.
+
+![image](https://user-images.githubusercontent.com/46839654/71956262-0743f500-322e-11ea-8e9f-a1c6b26eea1f.png)
+> **pug**을 사용하고, 미들웨어로 **cookieParser**, **session**, **flash를** 사용했다.
+
+![image](https://user-images.githubusercontent.com/46839654/71957280-acf86380-3230-11ea-943a-f10e4f40763a.png)
+> 마지막으로 라우팅 과정에서 `req.flash(type, message)`를 작성한다.
+>
+> **type**에는 `"info"`, `"success"`, `"error"` 세 가지 종류가 있다.
+
+![image](https://user-images.githubusercontent.com/46839654/71956764-576f8700-322f-11ea-91fa-deffa68ec4ff.png)
+![image](https://user-images.githubusercontent.com/46839654/71956655-11b2be80-322f-11ea-8c1f-b6f3965100f3.png)
+> pug을 작성한다.
+
+여기까지 했다면 당신은 이 화면을 볼 수 있다.
+> ![image](https://user-images.githubusercontent.com/46839654/71956737-445cb700-322f-11ea-8388-6202298be550.png)
+![image](https://user-images.githubusercontent.com/46839654/71956796-69512a00-322f-11ea-88a2-3089393c6456.png)
+
+이제 **/home**으로 접속하면 flash message는 나타나지 않는다. (해당 경로는 flash를 안보냈기 때문에)
+> ![image](https://user-images.githubusercontent.com/46839654/71957444-1f694380-3231-11ea-862d-54e53c424a28.png)
+![image](https://user-images.githubusercontent.com/46839654/71957447-2001da00-3231-11ea-819e-13b33f6ed49d.png)
+
+
+### Add animation
+
+지금까지 한 작업으로는 다음과 같은 질문을 할 수 있다.
+> "왜 flash message인데 안사라지고 그대로 있나요?"
+>
+> "제가 생각한 flash message가 아닌 것 같아요"
+
+다시 강조하지만 **express-flash**는 **임시적으로 HTML에 메시지를 추가해준다.**
+
+그냥 HTML 태그일 뿐이고, 그래서 "/" 경로에만 div.message.info가 생긴 것이다.
+
+이제 멋진 애니메이션을 추가해보자.
+
+![image](https://user-images.githubusercontent.com/46839654/71958144-e205b580-3232-11ea-856a-164f52d3fa25.png)
+![image](https://user-images.githubusercontent.com/46839654/71958217-14171780-3233-11ea-9724-f4ff5223ca8c.png)
+> 템플릿에 mixin을 추가 해봤다.
+
+![image](https://user-images.githubusercontent.com/46839654/71957702-d5cd2880-3231-11ea-98a0-e947f1798f67.png)
+![image](https://user-images.githubusercontent.com/46839654/71957704-d665bf00-3231-11ea-8ef3-abef5dc7e262.png)
+> style을 추가한다. **만약 sass를 사용한다면 Nesting 해도 좋다.**
+>
+> 여기서는 gif 캡쳐를 위해 width: 20%로 만들었는데, 실사용에서는 100%로 하면 된다.
+>
+> keyframes의 0-5%, 5-95%, 95-100%가 의미하는 바는 **user**에게 flash message같은 속임수를 주기 위해
+>
+> flash message가 생성되면 html의 보이지 않는 영역에서 부터 출발하여 기존 위치에 머무르고, 다시 위로 보낸다.
+>
+> **forwards**를 추가하지 않으면 **.flash-message__container**는 애니메이션이 끝난 후 html의 보이는 영역에 머무른다.
+> 
+> **만약 sass를 사용중이라면 다음과 같이 작성한다.**
+>
+> ![image](https://user-images.githubusercontent.com/46839654/71958378-812aad00-3233-11ea-8cf1-149789dc6624.png)
+
+![image](https://user-images.githubusercontent.com/46839654/71957958-6572d700-3232-11ea-9977-3d5247054794.png)
+> 처음부터 css로 작성된 것을 추가하든, 모듈번들러로 번들 되어진 css를 추가하든 자유다.
+
+**결과물**
+
+![12](https://user-images.githubusercontent.com/46839654/71958510-d49cfb00-3233-11ea-83c6-bf619cb08376.gif)
+> 애니메이션을 적용해서 이제야 Flash message 다워졌다.
+>
+> `req.flash(1, 2)`가 적용된 경로에서만 **flash message**가 보여진다.
 
 ---
 
