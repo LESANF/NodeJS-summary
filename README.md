@@ -1,6 +1,6 @@
 ### 오타 / 누락 / 내용 추가는 이슈 주세요.
 
-#### React 정리 [바로가기](https://github.com/Kunune/React-summary)
+#### [ES6 문법](https://github.com/Kunune/ES6-grammar) ,[React 정리](https://github.com/Kunune/React-summary), [GraphQL 정리](https://github.com/Kunune/GraphQL-summary)
 
 - [1. Node.js란?](#NodeJS)
 - [2. 개발환경 세팅](#프로젝트-시작하기)
@@ -21,12 +21,15 @@
 - [11. Flash message](#express-flash)
 - [12. 민감한 정보, dotenv로 가리자](#dotenv)
 - [13. AWS S3](#AWS-S3)
-- [14. 서버 코드를 구형 코드로 트랜스파일](#배포를-위해-서버-코드를-구형-코드로-변환)
-- [15. Gulp 시작하기](#Gulp를-시작하는-법)
-- [16-0 Gulp 기본문법](#Gulp-기본-문법)
-- [16-1 Gulp_pug](#Gulp-pug)
-- [16-2 Gulp_SASS](#Gulp-SASS)
-- [16-3 Gulp_Babel](#Gulp-Babel)
+- [14. CORS](#CORS)
+- [15. 서버 코드를 구형 코드로 트랜스파일](#배포를-위해-서버-코드를-구형-코드로-변환)
+- [16. Gulp 시작하기](#Gulp를-시작하는-법)
+- [17-0 Gulp 기본문법](#Gulp-기본-문법)
+- [17-1 Gulp_pug](#Gulp-pug)
+- [17-2 Gulp_SASS](#Gulp-SASS)
+- [17-3 Gulp_Babel](#Gulp-Babel)
+
+---
 
 # NodeJS
 
@@ -1270,6 +1273,37 @@ S3 콘솔을 가보자.
 이제 DB에 저장된 fileURL로 파일을 불러올 수 있다.
 
 > ![image](https://user-images.githubusercontent.com/46839654/71759817-7223c200-2ef6-11ea-8c58-496c2cf0a389.png)
+
+---
+
+# CORS
+
+**이 부분은 Node로 API 서버를 만들고 있지 않다면 넘어가도 좋다.**
+
+CORS란 **Cross Origin Resource Sharing**의 약자이다. **현재 도메인과 다른 도메인으로 리소스가 요청될 경우**를 뜻한다.
+
+보안 상의 이유로, 브라우저는 **CORS**를 제한하고 있다.
+
+하지만 RESTful API를 기반으로 SPA를 만들게 되면 API 서버와 웹앱의 서버가 다를 수 있다. 이런 경우 CORS 제한이 걸린다.
+
+이를 해결하기 위한 가장 간단한 방법은 **API 서버**의 **응답 헤더**를 변경하는 것이다.
+
+만약 공공 API를 사용하는데, CORS가 걸리면 Express로 간단히 API 서버를 만든 뒤, 요청하면 된다.
+
+**만약 당신이 API 서버를 만들었는데, 브라우저에서 CORS가 걸렸으면 세 가지의 헤더 설정을 해주면 된다.**
+
+다음 코드는 내가 API 서버를 만들 때 사용한 설정이다.
+> ![image](https://user-images.githubusercontent.com/46839654/72219804-5c18a000-358d-11ea-9ab5-d2a5f8f0e081.png)
+> > **Access-Control-Allow-Origin** : CORS를 허용할 도메인, *은 모든 도메인을 의미.
+> >
+> > **Acces-Control-Allow-Methods** : 요청 받을 메소드를 설정. 여기에 적히지 않은 메소드는 접근 실패를 의미.
+> >
+> > **Access-Control-Allow-Headers** : Headers로 넘겨지는 데이터를 정한다.
+
+해당 API 서버는 토큰 인증 API 서버로, 토큰을 Headers로 받기 때문에 추가했다.
+
+저렇게 설정한 뒤, 미들웨어 사용하듯이 사용하면 된다. (라우터 위에 해야한다)
+> ![image](https://user-images.githubusercontent.com/46839654/72220020-b87cbf00-358f-11ea-8271-ddf23f77d723.png)
 
 ---
 
