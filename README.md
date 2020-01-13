@@ -4,6 +4,7 @@
 
 - [1. Node.js란?](#NodeJS)
 - [2. 개발환경 세팅](#프로젝트-시작하기)
+- [2-1. Smart NPM scripts](#Smart-NPM-scripts)
 - [3. 빠르게 서버 만들기](#express-서버-만들기)
 - [4. 라우터](#라우터-Router)
 - [5. 미들웨어](#미들웨어-Middleware)
@@ -63,23 +64,9 @@
 ### 개발환경
 
 1. Git 설치 및 세팅 [Git download](https://git-scm.com/)
-   - > git config --list를 입력하면 현재 설정 값들을 볼 수 있다.
-   - > git config --global `user.name` "**your name**"
-   - > git config --global `user.email` "**your email**"
-     >
-     > > `공용컴퓨터에선 --global로 설정 X`
-   - > git config --unset `config.name` (--global이 아닌 설정 삭제)
-   - > git config --unset --global `config.name` (--global인 설정 삭제)
-     >
-     > **단축 git command**
-     >
-     > git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-     >
-     > > `git lg`를 입력하면 가독성 있게 보여준다. (`git log`는 동일하게 사용가능)
-     >
-     > git config --global alias.st status -> gir st (git status)
-     >
-     > > `git st`를 입력하면 `git status`와 같은 기능
+   > user.name과 user.email을 --global 혹은 local로 설정해야 한다.
+   >
+   > 방법은 [여기](https://github.com/Kunune/Git-summary)를 참조.
 2. Windows 10 개발자모드 활성화
    - > 설정 > 업데이트&보안 > 개발자 > 개발자모드
      >
@@ -190,6 +177,37 @@
    - > morgan (로깅 미들웨어)
    - > pug (템플릿 엔진)
    - > multer (파일 저장)
+
+---
+
+# Smart NPM scripts
+
+`npm`이나 `yarn`은 똑똑해서 우리가 **build**를 호출하면 **prebuild** 👉 **build** 👉 **postbuild** 순서대로 호출한다.
+
+짐작하는 것처럼 **prebuild**는 build 이전, **postbuild**는 build 후에 실행된다.
+
+우선, 다음과 같이 설정했다.
+> ![image](https://user-images.githubusercontent.com/46839654/72252032-02be7880-3642-11ea-8e1a-97220c9dfa17.png)
+> > **역슬래시 2개**는 npm에게 window directory 구분자를 알려주기 위함임. UNIX사용, 배포 시에는 정상적으로 / 사용.
+> >
+> > **prebuild** : build directory 생성 후, prebuild.js를 build로 copy
+> >
+> > **build** : src/server.js를 트랜스파일 후 build directory로 copy
+> >
+> > **postbuild** : src/postbuild.js를 build directory로 copy
+
+**npm run build** 명령을 실행한다.
+> ![1](https://user-images.githubusercontent.com/46839654/72252604-eb33bf80-3642-11ea-9e51-d267b2e3c497.gif)
+> ![image](https://user-images.githubusercontent.com/46839654/72253276-86796480-3644-11ea-82d1-b34b8659ea53.png)
+> > npm run build 명령만 실행했는데 `prebuild`, `build`, `postbuild` 세 개 모두 실행된 것을 볼 수 있다.
+
+이건 배포할 때 매우 유용하다.
+
+예를들면, GraphQL build 작업을 하는데 src를 babel 돌리면 graphql 파일들은 옮겨지지가 않는다.
+
+이런 경우 **postbuild**를 사용하여 graphql 파일들을 copy할 수 있다.
+
+❗ `build` 외에도 **start** script도 **prestart**, **start**, **poststart**를 사용할 수 있다. ❗
 
 ---
 
@@ -710,11 +728,11 @@ req, res, next 중 `req`는 `request`의 약어인데, console.log(req)를 하�
   > ![UserCreatedcode](https://user-images.githubusercontent.com/46839654/69717739-f6449600-114f-11ea-9e06-d9845dc24f02.png)
   >
   > > 예를들어 video를 하나 업로드 했는데, 업로드에 성공하자 마자 그 video의 detail로 이동하게 만들고 싶다면
-  >
-  > > `const video = db.create({});` 👉 `res.redirect(/user/${user.id});`
-  >
+  > >
+  > > `const video = db.create({});` 👉 `res.redirect(/video/${video.id});`
+  > >
   > > 이런 흐름으로 코드를 작성하면 된다. 중간에 에러를 잡아내야 한다면 `try-catch`를 사용한다.
-  >
+  > >
   > > `const { email, password } = req.body;` 👉 const { **템플릿의 input에 설정해둔 name** } = req.body
 - 결과
   > ![UserCreatedconsole](https://user-images.githubusercontent.com/46839654/69717740-f6449600-114f-11ea-8ac0-6d68c2b566a7.png)
