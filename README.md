@@ -137,6 +137,8 @@
    > > `--save`는 해당 패키지를 `dependencies` 항목에 추가한다. **생략해도 된다.**
    > >
    > > `--save-dev`는 해당 패키지를 `devDependencies` 항목에 추가한다. **-D를 사용하면 생략해도 된다**
+   > >
+   > > ❗ 터미널에서 바로 `tsc`, `gulp` 등의 명령어를 사용하고 싶다면 -g로 설치
    >
    > npm install `패키지` `패키지` `...`
    >
@@ -197,7 +199,7 @@
 > > **postbuild** : src/postbuild.js를 build directory로 copy
 
 **npm run build** 명령을 실행한다.
-> ![1](https://user-images.githubusercontent.com/46839654/72252604-eb33bf80-3642-11ea-9e51-d267b2e3c497.gif)
+> ![1-min (1)](https://user-images.githubusercontent.com/46839654/73276297-cf780e00-422b-11ea-8f90-2d62b5dbafdb.gif)
 > ![image](https://user-images.githubusercontent.com/46839654/72253276-86796480-3644-11ea-82d1-b34b8659ea53.png)
 > > npm run build 명령만 실행했는데 `prebuild`, `build`, `postbuild` 세 개 모두 실행된 것을 볼 수 있다.
 
@@ -1170,7 +1172,7 @@ npm i **cookie-parser** **express-session**
 
 **결과물**
 
-![12](https://user-images.githubusercontent.com/46839654/71958510-d49cfb00-3233-11ea-83c6-bf619cb08376.gif)
+![1-min](https://user-images.githubusercontent.com/46839654/73276644-5b8a3580-422c-11ea-8864-d8c0774bdc9e.gif)
 > 애니메이션을 적용해서 이제야 Flash message 다워졌다.
 >
 > `req.flash(1, 2)`가 적용된 경로에서만 **flash message**가 보여진다.
