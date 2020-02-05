@@ -8,9 +8,11 @@
 - [3. 빠르게 서버 만들기](#express-서버-만들기)
 - [4. 라우터](#라우터-Router)
 - [5. 미들웨어](#미들웨어-Middleware)
+- [5-0. helmet](#helmet)
 - [5-1. Nodemon](#Nodemon)
 - [5-2. multer](#Multer)
-- [5-3. body-parser](#body-parser)
+- [5-3. morgan](#morgan)
+- [5-4. body-parser](#body-parser)
 - [6. 템플릿 엔진](#템플릿-엔진-pug)
 - [7. res.locals](#템플릿에서-접근이-가능한-속성-locals)
 - [8. express.static](#express-static)
@@ -327,24 +329,43 @@
 > 라우터 위에 작성하면 경로가 바뀔 때마다 실행된다.
 >
 > > `어떤 Function이든 미들웨어가 될 수 있다.`
+> 
+---
+
+# helmet
+
+`npm i helmet`
+> [helmet](https://www.npmjs.com/package/helmet)
+
+사용해야 하는 이유
+> [프로덕션 환경의 Express를 위한 보안 우수 사례](https://expressjs.com/ko/advanced/best-practice-security.html)
+
+### 사용법
+
+GraphQL server안에 express를 활용했는데, `express.use`만 보면 된다.
+
+NODE_ENV=production일 때만 helemt을 사용하고, morgan을 combined로 사용하는 코드다.
+
+> import helmet from "helmet"
+>
+> ![image](https://user-images.githubusercontent.com/46839654/73847488-b98ccd80-4869-11ea-8133-2db0efae6242.png)
+
 
 ---
 
 # Nodemon
 
+`npm i nodemon -D`
+> [nodemon](https://www.npmjs.com/package/nodemon)
+
 `nodemon`은 프로젝트 폴더의 파일 변경이 감지되면 자동으로 서버를 재시작 하는 툴이다.
 
-### 설치
-
-> ![nodemon](https://user-images.githubusercontent.com/46839654/70028855-0c87a180-15e9-11ea-9d2e-d26a42cdf4c3.png)
->
-> > 전역으로 설치해도 좋고, 개발자용으로 설치해도 좋다.
 
 ### 사용법
 
-> ![nodemonusege](https://user-images.githubusercontent.com/46839654/70029037-7f911800-15e9-11ea-8193-677c803114a2.png)
->
-> > 기본적으로는 `nodemon 'your server file'` 이다.
+기본적으로는 `nodemon 'your server file'` 으로 사용을 한다.
+
+i.e. `nodemon src/server.js`
 
 ### 설정
 
@@ -401,6 +422,33 @@ Multer는 파일 업로드를 위해 사용되는 multipart/form-data 를 다루
 > ![1241312](https://user-images.githubusercontent.com/46839654/70032274-7788a680-15f0-11ea-9111-f26891f9c1db.png) > ![21321asdas](https://user-images.githubusercontent.com/46839654/70032405-c7676d80-15f0-11ea-9742-8408abdd916b.png)
 >
 > > 서버에 저장된 파일명은 무작위로 생긴다.
+
+---
+
+# morgan
+
+`npm i morgan`
+> [morgan](https://www.npmjs.com/package/morgan)
+
+서버가 받는 http request를 콘솔에 표현해주는 미들웨어다.
+
+이게 없으면 GET / POST / PATCH / DELETE 등의 http request를 볼 수 없다.
+
+✅ 주로 개발할 때는 `dev`, 배포할 때는 `combined, common`을 사용한다.
+
+가능한 설정으로는 5개가 있다.
+> ![image](https://user-images.githubusercontent.com/46839654/73846047-26529880-4867-11ea-91f1-10c3744fbb93.png)
+
+1. dev
+   > ![image](https://user-images.githubusercontent.com/46839654/73846121-513cec80-4867-11ea-8010-7ad99a630f4c.png)
+2. short
+   > ![image](https://user-images.githubusercontent.com/46839654/73846185-6e71bb00-4867-11ea-9f7d-43058550cad6.png)
+3. tiny
+   > ![image](https://user-images.githubusercontent.com/46839654/73846233-85b0a880-4867-11ea-9273-cd3663565728.png)
+4. common
+   > ![image](https://user-images.githubusercontent.com/46839654/73846567-14252a00-4868-11ea-9f18-5ba213c0872a.png)
+5. combine
+   > ![image](https://user-images.githubusercontent.com/46839654/73846715-5484a800-4868-11ea-985b-4e5a184b4855.png)
 
 ---
 
