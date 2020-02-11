@@ -1362,11 +1362,11 @@ CORS란 **Cross Origin Resource Sharing**의 약자이다. **현재 도메인과
 
 다음 코드는 내가 API 서버를 만들 때 사용한 설정이다.
 > ![image](https://user-images.githubusercontent.com/46839654/72219804-5c18a000-358d-11ea-9ab5-d2a5f8f0e081.png)
-> > **Access-Control-Allow-Origin** : CORS를 허용할 도메인, *은 모든 도메인을 의미.
+> > **Access-Control-Allow-Origin** : 요청이 허용되는 URL을 Route 제외하고 작성, "*"은 모든 요청 허가
 > >
-> > **Acces-Control-Allow-Methods** : 요청 받을 메소드를 설정. 여기에 적히지 않은 메소드는 접근 실패를 의미.
+> > **Acces-Control-Allow-Methods** : 요청이 허용되는 HTTP Method를 작성, 미포함된 Method는 거절, * 사용 불가
 > >
-> > **Access-Control-Allow-Headers** : Headers로 넘겨지는 데이터를 정한다.
+> > **Access-Control-Allow-Headers** : 요청이 허용되는 HTTP Header 목록을 작성, 미포함된 Header는 사용불가, * 사용 불가
 
 해당 API 서버는 토큰 인증 API 서버로, 토큰을 Headers로 받기 때문에 추가했다.
 
